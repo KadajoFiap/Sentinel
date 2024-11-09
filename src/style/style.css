@@ -12,6 +12,7 @@ body {
     height: 100vh;
     background-color: #f4f4f4;
     width: 100%;
+    overflow-x: hidden;
 }
 
 .interface{
