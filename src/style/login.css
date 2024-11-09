@@ -35,6 +35,7 @@ header > .interface{
 
 #logoccr25{
     height: 50px;
+    padding-left: 30px;
 }
 
 /*CORPO DO SITE*/
@@ -79,4 +80,3 @@ header > .interface{
 #username, #password {
     opacity:60%;
 }
-
