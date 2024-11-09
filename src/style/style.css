@@ -1,0 +1,74 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+}
+
+header {
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    background: #ccc;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    height: 70px;
+}
+   
+header, nav ul {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    padding-top: 0;
+    list-style: none;
+}
+   
+nav ul li {
+    margin-left: 1rem;
+}
+
+#logoccr25{
+    height: 50px;
+}
+
+#referencias_paginas {
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+table {
+    border-collapse: collapse;
+    width: 1000px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #ccc;
+    color: black;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #ddd;
+}
+
+#main_home {
+    padding-top: 150px;
+    padding-bottom: 50px;
+}

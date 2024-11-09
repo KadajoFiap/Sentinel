@@ -1,0 +1,73 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: url(background.png) no-repeat;
+    background-size: cover;
+    width: 100%;
+}
+
+.login-container {
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center;
+}
+
+.login-container h2 {
+    margin-bottom: 20px;
+    color: white;
+}
+
+.login-container input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.login-container button {
+    width: 105%;
+    padding: 10px;
+    background-color: white;
+    color: black;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.login-container button:hover {
+    background-color: #ccc;
+}
+
+#username, #password {
+    opacity:60%;
+}
+
+header {
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    background: #ccc;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    height: 70px;
+}
+   
+header, nav ul {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    padding-top: 0;
+    list-style: none;
+}
+   
+nav ul li {
+    margin-left: 1rem;
+}
+
+#logoccr25{
+    height: 50px;
+}

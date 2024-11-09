@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style/login.css">
+    <link rel="shortcut icon" href="style/logoccr.png" type="image/x-icon">
+    <title>Login</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li>
+                    <a href="login.html">
+                        <img src="style/logoccr25.png" alt="logo_ccr" srcset="" id="logoccr25">
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <main>
+            <div class="login-container">
+                <h2>LOGIN</h2>
+                <form id="formularioLogin">
+                    <input type="text" id="username" placeholder="Username" required value="user">
+                    <input type="password" id="password" placeholder="Password" required value="password">
+                    <button type="submit">Fazer login</button>
+                </form>
+            </div>
+        </main>
+    </div>
+    <script>
+        document.getElementById('formularioLogin').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username === 'user' && password === 'password') {
+                window.location.href="homepage.html"
+            } else {
+                alert('Login falhou. Tente novamente.');
+            }
+        });
+    </script>
+</body>
+</html>
