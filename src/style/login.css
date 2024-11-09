@@ -1,14 +1,43 @@
+/* Geral */
+*{
+    font-family: "Poppins", sans-serif;
+}
+
 body {
-    font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     background: url(background.png) no-repeat;
     background-size: cover;
-    width: 100%;
 }
 
+.interface{
+    max-width:  1920px;
+    margin: 0 auto;
+}
+
+/* HEADER */
+header {
+    padding: 20px 4%;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    background: #ccc;
+    position: fixed;
+    width: 100%;
+    top: 0;
+}
+
+header > .interface{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#logoccr25{
+    height: 50px;
+}
+
+/*CORPO DO SITE*/
 .login-container {
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -17,7 +46,9 @@ body {
 }
 
 .login-container h2 {
-    margin-bottom: 20px;
+    margin-bottom: 60px;
+    font-size: 50px;
+    font-weight: 600;
     color: white;
 }
 
@@ -32,6 +63,8 @@ body {
 .login-container button {
     width: 105%;
     padding: 10px;
+    font-size: 15px;
+    font-weight: 600;
     background-color: white;
     color: black;
     border: none;
@@ -47,27 +80,3 @@ body {
     opacity:60%;
 }
 
-header {
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
-    background: #ccc;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    height: 70px;
-}
-   
-header, nav ul {
-    display: flex;
-    justify-content: space-between;
-    padding: 1rem;
-    padding-top: 0;
-    list-style: none;
-}
-   
-nav ul li {
-    margin-left: 1rem;
-}
-
-#logoccr25{
-    height: 50px;
-}
