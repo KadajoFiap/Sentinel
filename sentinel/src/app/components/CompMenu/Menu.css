@@ -1,0 +1,15 @@
+.menu{
+    list-style-type: none;
+    float: right;
+    margin-top: 62px;
+}
+
+.menu li{
+    padding: 10px;
+    display: inline-table;
+    text-align: center;
+}
+
+.menu li a{
+    text-decoration: none;
+}
