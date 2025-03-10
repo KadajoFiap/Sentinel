@@ -8,7 +8,6 @@ const Header = () =>{
         <>
             <header>
                 <div className='content'>
-                    
                     <CompMenu />
                 </div>
             </header>
