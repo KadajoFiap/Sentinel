@@ -23,16 +23,16 @@ const CompMenu = () => {
                 <ul className="menu">
                     <div className="menu-container">
                         <li>
-                            <Link href='/'>Ocorrências</Link>
+                            <Link href='/Ocorrências'>Ocorrências</Link>
                         </li>
                         <li>
-                            <Link href='/Produtos'>Relatórios</Link>
+                            <Link href='/Relatórios'>Relatórios</Link>
                         </li>
                         <li>
-                            <Link href='/Contato'>Integrantes</Link>
+                            <Link href='/Integrantes'>Integrantes</Link>
                         </li>
                         <li>
-                            <Link href='/Sobre'>GitHub</Link>
+                            <Link href=''>GitHub</Link>
                         </li>
                     </div>
                 </ul>
