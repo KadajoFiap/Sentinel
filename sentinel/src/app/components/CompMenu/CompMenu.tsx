@@ -29,10 +29,10 @@ const CompMenu = () => {
                 <ul className="h-full flex items-center list-none float-left -mt-[60px] ml-[30px]">
                     <div className="flex flex-col gap-[40px]">
                         <li className={`px-5 py-2.5 transition-all duration-300 ease-in-out delay-100 ${isMenuOpen ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-5'}`}>
-                            <Link href='/Ocorrências' className="no-underline text-white text-[34px] font-medium hover:text-blue-500 transition-colors duration-200">Ocorrências</Link>
+                            <Link href='/Ocorrencias' className="no-underline text-white text-[34px] font-medium hover:text-blue-500 transition-colors duration-200">Ocorrências</Link>
                         </li>
                         <li className={`px-5 py-2.5 transition-all duration-300 ease-in-out delay-200 ${isMenuOpen ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-5'}`}>
-                            <Link href='/Relatórios' className="no-underline text-white text-[34px] font-medium hover:text-blue-500 transition-colors duration-200">Relatórios</Link>
+                            <Link href='/Relatorios' className="no-underline text-white text-[34px] font-medium hover:text-blue-500 transition-colors duration-200">Relatórios</Link>
                         </li>
                         <li className={`px-5 py-2.5 transition-all duration-300 ease-in-out delay-300 ${isMenuOpen ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-5'}`}>
                             <Link href='/Integrantes' className="no-underline text-white text-[34px] font-medium hover:text-blue-500 transition-colors duration-200">Integrantes</Link>

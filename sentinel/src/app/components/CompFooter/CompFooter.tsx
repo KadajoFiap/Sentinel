@@ -1,7 +1,7 @@
 const CompFooter = () => {
     return (
-      <footer className="fixed bottom-0 left-0 w-full bg-gray-100 py-5 z-[998]">
-        <div className="text-center">
+      <footer className="relative bottom-0 left-0 w-full bg-[#272727] py-5 z-[998]">
+        <div className="text-center text-white">
             <p>© 2025 Meu Site. Todos os direitos reservados.</p>
         </div>
       </footer>
