@@ -34,12 +34,12 @@ jobs:
       - name: Detect package manager
         id: detect-package-manager
         run: |
-          if [ -f "/home/runner/work/trnt/trnt/yarn.lock" ]; then
+          if [ -f "/home/runner/work/trnt/trnt/subdirectory/yarn.lock" ]; then
             echo "manager=yarn" >> $GITHUB_OUTPUT
             echo "command=install" >> $GITHUB_OUTPUT
             echo "runner=yarn" >> $GITHUB_OUTPUT
             exit 0
-          elif [ -f "/home/runner/work/trnt/trnt/package.json" ]; then
+          elif [ -f "/home/runner/work/trnt/trnt/subdirectory/package.json" ]; then
             echo "manager=npm" >> $GITHUB_OUTPUT
             echo "command=ci" >> $GITHUB_OUTPUT
             echo "runner=npx --no-install" >> $GITHUB_OUTPUT
