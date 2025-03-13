@@ -1,10 +1,10 @@
 const CompOcorrencias = () => {
     return (
         <>
-            <div className="bg-[#f4f4f4] min-h-screen pt-25 ps-12 pe-12 pb-10">
+            <div className="bg-[#f4f4f4] min-h-screen pt-30 ps-10 pe-10 pb-10">
                 <h1 className="text-[26px] font-medium">Ocorrências</h1>
                 
-                <div className="mt-6 h-[calc(100vh-200px)] overflow-auto rounded-lg">
+                <div className="mt-12 h-[calc(100vh-200px)] overflow-auto rounded-lg">
                     <table className="min-w-full bg-white shadow-md">
                         <thead className="bg-gray-100 sticky top-0">
                             <tr>
