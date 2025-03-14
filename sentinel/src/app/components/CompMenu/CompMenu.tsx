@@ -57,7 +57,7 @@ const CompMenu = () => {
                             </Link>
                         </li>
                         <li className={`px-5 py-2.5 transition-all duration-300 ease-in-out delay-400 ${isMenuOpen ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-5'}`}>
-                            <Link href='' 
+                            <Link href='https://github.com/KadajoFiap/Sentinel' 
                                   onClick={handleItemClick} 
                                   className="no-underline text-white text-[32px] font-medium hover:text-blue-500 transition-colors duration-200 flex items-center gap-3">
                                 <div className="w-3 h-3 border-2 border-white"></div>
