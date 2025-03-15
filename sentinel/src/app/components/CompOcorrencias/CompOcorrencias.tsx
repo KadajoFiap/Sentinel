@@ -34,31 +34,31 @@ const CompOcorrencias = () => {
                 
                 <div className="bg-white rounded-lg shadow-md min-h-[500px] flex flex-col">
                     <div className="flex-1 overflow-auto">
-                        <table className="min-w-full">
+                        <table className="min-w-full table-fixed">
                             <thead className="bg-gray-100 sticky top-0">
                                 <tr>
-                                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 bg-gray-100 whitespace-nowrap">ID</th>
-                                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 bg-gray-100 whitespace-nowrap">Data</th>
-                                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 bg-gray-100 whitespace-nowrap">Descrição</th>
-                                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 bg-gray-100 whitespace-nowrap">Status</th>
-                                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 bg-gray-100 whitespace-nowrap">Ações</th>
+                                    <th className="w-24 px-6 py-3 text-left text-sm font-semibold text-gray-600 bg-gray-100">ID</th>
+                                    <th className="w-32 px-6 py-3 text-left text-sm font-semibold text-gray-600 bg-gray-100">Data</th>
+                                    <th className="w-[45%] px-6 py-3 text-left text-sm font-semibold text-gray-600 bg-gray-100">Descrição</th>
+                                    <th className="w-32 px-6 py-3 text-left text-sm font-semibold text-gray-600 bg-gray-100">Status</th>
+                                    <th className="w-24 px-6 py-3 text-left text-sm font-semibold text-gray-600 bg-gray-100">Ações</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200">
                                 {ocorrencias.map((ocorrencia) => (
                                     <tr key={ocorrencia.id} className="hover:bg-gray-50">
-                                        <td className="px-6 py-4 text-sm text-gray-500">{String(ocorrencia.id).padStart(3, '0')}</td>
-                                        <td className="px-6 py-4 text-sm text-gray-500">{ocorrencia.data}</td>
-                                        <td className="px-6 py-4 text-sm text-gray-500">{ocorrencia.descricao}</td>
-                                        <td className="px-6 py-4 text-sm text-gray-500">{ocorrencia.status}</td>
-                                        <td className="px-6 py-4 text-sm text-gray-500">
+                                        <td className="px-6 py-4 h-16 text-sm text-gray-500 truncate">{String(ocorrencia.id).padStart(3, '0')}</td>
+                                        <td className="px-6 py-4 h-16 text-sm text-gray-500 truncate">{ocorrencia.data}</td>
+                                        <td className="px-6 py-4 h-16 text-sm text-gray-500 truncate">{ocorrencia.descricao}</td>
+                                        <td className="px-6 py-4 h-16 text-sm text-gray-500 truncate">{ocorrencia.status}</td>
+                                        <td className="px-6 py-4 h-16 text-sm text-gray-500">
                                             <button className="text-blue-600 hover:text-blue-800">Editar</button>
                                         </td>
                                     </tr>
                                 ))}
                                 {ocorrencias.length === 0 && (
                                     <tr>
-                                        <td colSpan={5} className="px-6 py-8 text-center text-gray-500">
+                                        <td colSpan={5} className="px-6 py-4 h-16 text-center text-gray-500">
                                             Nenhuma ocorrência registrada
                                         </td>
                                     </tr>
