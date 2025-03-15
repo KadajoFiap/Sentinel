@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
-import CompAddOcorrencia from '../CompAddOcorrencia/CompAddOcorrencia';
+import CompAddOcorrencia from './CompAddOcorrencia';
+import CompEditOcorrencia from './CompEditOcorrencia';
 
 interface Ocorrencia {
     id: number;
@@ -11,12 +12,25 @@ interface Ocorrencia {
 
 const CompOcorrencias = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [ocorrenciaParaEditar, setOcorrenciaParaEditar] = useState<Ocorrencia | null>(null);
     const [ocorrencias, setOcorrencias] = useState<Ocorrencia[]>([
         { id: 1, data: '10/03/2024', descricao: 'Descrição inicial', status: 'Em andamento' }
     ]);
 
     const handleAddOcorrencia = (novaOcorrencia: Ocorrencia) => {
         setOcorrencias([...ocorrencias, novaOcorrencia]);
+    };
+
+    const handleEditClick = (ocorrencia: Ocorrencia) => {
+        setOcorrenciaParaEditar(ocorrencia);
+        setIsEditModalOpen(true);
+    };
+
+    const handleEditOcorrencia = (ocorrenciaAtualizada: Ocorrencia) => {
+        setOcorrencias(ocorrencias.map(ocorrencia => 
+            ocorrencia.id === ocorrenciaAtualizada.id ? ocorrenciaAtualizada : ocorrencia
+        ));
     };
 
     return (
@@ -52,7 +66,12 @@ const CompOcorrencias = () => {
                                         <td className="px-6 py-4 h-16 text-sm text-gray-500 truncate">{ocorrencia.descricao}</td>
                                         <td className="px-6 py-4 h-16 text-sm text-gray-500 truncate">{ocorrencia.status}</td>
                                         <td className="px-6 py-4 h-16 text-sm text-gray-500">
-                                            <button className="text-blue-600 hover:text-blue-800">Editar</button>
+                                            <button 
+                                                onClick={() => handleEditClick(ocorrencia)}
+                                                className="text-blue-600 hover:text-blue-800"
+                                            >
+                                                Editar
+                                            </button>
                                         </td>
                                     </tr>
                                 ))}
@@ -75,6 +94,18 @@ const CompOcorrencias = () => {
                 onAdd={handleAddOcorrencia}
                 lastId={ocorrencias.length > 0 ? Math.max(...ocorrencias.map(o => o.id)) : 0}
             />
+
+            {ocorrenciaParaEditar && (
+                <CompEditOcorrencia
+                    isOpen={isEditModalOpen}
+                    onClose={() => {
+                        setIsEditModalOpen(false);
+                        setOcorrenciaParaEditar(null);
+                    }}
+                    onEdit={handleEditOcorrencia}
+                    ocorrencia={ocorrenciaParaEditar}
+                />
+            )}
         </>
     );
 };
