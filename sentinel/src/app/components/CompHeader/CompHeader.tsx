@@ -6,9 +6,15 @@ import CompCaixaEntrada from '../CompCaixaEntrada/CompCaixaEntrada';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useAuth } from '../../contexts/AuthContext';
+import { useEffect, useState } from 'react';
 
 const Header = () => {
     const { isLoggedIn, userEmail } = useAuth();
+    const [showComponents, setShowComponents] = useState(false);
+
+    useEffect(() => {
+        setShowComponents(isLoggedIn);
+    }, [isLoggedIn]);
 
     return (
         <header className="fixed top-0 left-0 right-0 h-[60px] bg-[#f4f4f4] flex items-center px-5 shadow-md z-[1000]">
@@ -17,7 +23,7 @@ const Header = () => {
             </div>
             
             <div className="flex items-center gap-6">
-                {isLoggedIn && (
+                {showComponents && (
                     <>
                         <CompCaixaEntrada />
                         <CompPerfil email={userEmail} />

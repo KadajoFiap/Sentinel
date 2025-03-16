@@ -6,7 +6,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 
 // Metadados da aplicação
 export const metadata: Metadata = {
-  title: "Sentinel - Sistema de Ocorrências",
+  title: "Sentinel",
   description: "Sistema de gerenciamento de ocorrências da CCR",
 };
 

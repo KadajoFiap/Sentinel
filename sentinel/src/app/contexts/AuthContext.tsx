@@ -14,38 +14,54 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userEmail, setUserEmail] = useState('');
 
+  const checkLoginStatus = () => {
+    const loginStatus = localStorage.getItem('isLoggedIn');
+    setIsLoggedIn(!!loginStatus);
+    setUserEmail(loginStatus ? 'admin@admin.com' : '');
+  };
+
   useEffect(() => {
-    // Check login status when component mounts and when localStorage changes
-    const checkLoginStatus = () => {
-      const loginStatus = localStorage.getItem('isLoggedIn');
-      setIsLoggedIn(!!loginStatus);
-      if (loginStatus) {
-        setUserEmail('admin@admin.com');
-      } else {
-        setUserEmail('');
+    checkLoginStatus();
+
+    // Listen for storage events from other tabs/windows
+    const handleStorageChange = (event: StorageEvent) => {
+      if (event.key === 'isLoggedIn') {
+        checkLoginStatus();
       }
     };
 
-    checkLoginStatus();
-
-    // Listen for storage events
-    window.addEventListener('storage', checkLoginStatus);
+    window.addEventListener('storage', handleStorageChange);
     return () => {
-      window.removeEventListener('storage', checkLoginStatus);
+      window.removeEventListener('storage', handleStorageChange);
     };
   }, []);
 
   const login = () => {
+    localStorage.setItem('isLoggedIn', 'true');
     setIsLoggedIn(true);
     setUserEmail('admin@admin.com');
-    localStorage.setItem('isLoggedIn', 'true');
   };
 
   const logout = () => {
     localStorage.removeItem('isLoggedIn');
     setIsLoggedIn(false);
     setUserEmail('');
+    // Dispatch a custom event to ensure all components update
+    window.dispatchEvent(new Event('auth-logout'));
   };
+
+  // Listen for the custom logout event
+  useEffect(() => {
+    const handleLogout = () => {
+      setIsLoggedIn(false);
+      setUserEmail('');
+    };
+
+    window.addEventListener('auth-logout', handleLogout);
+    return () => {
+      window.removeEventListener('auth-logout', handleLogout);
+    };
+  }, []);
 
   return (
     <AuthContext.Provider value={{ isLoggedIn, userEmail, login, logout }}>
