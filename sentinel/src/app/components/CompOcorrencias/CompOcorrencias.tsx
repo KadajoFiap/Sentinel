@@ -28,7 +28,7 @@ const CompOcorrencias = () => {
     };
 
     const handleEditOcorrencia = (ocorrenciaAtualizada: Ocorrencia) => {
-        setOcorrencias(ocorrencias.map(ocorrencia => 
+        setOcorrencias(ocorrencias.map(ocorrencia =>
             ocorrencia.id === ocorrenciaAtualizada.id ? ocorrenciaAtualizada : ocorrencia
         ));
     };
@@ -38,15 +38,10 @@ const CompOcorrencias = () => {
             <div className="bg-[#f4f4f4] min-h-screen pt-30 ps-10 pe-10 pb-10">
                 <div className="flex justify-between items-center mb-8">
                     <h1 className="text-[30px] font-medium">Ocorrências</h1>
-                    <button
-                        onClick={() => setIsModalOpen(true)}
-                        className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors"
-                    >
-                        + Adicionar Ocorrência
-                    </button>
                 </div>
-                
-                <div className="bg-white rounded-lg shadow-md min-h-[500px] flex flex-col">
+
+
+                <div className="bg-white rounded-lg shadow-md min-h-[580px] max-h-[580px] flex flex-col mb-4">
                     <div className="flex-1 overflow-auto">
                         <table className="min-w-full table-fixed">
                             <thead className="bg-gray-100 sticky top-0">
@@ -66,9 +61,9 @@ const CompOcorrencias = () => {
                                         <td className="px-6 py-4 h-16 text-sm text-gray-500 truncate">{ocorrencia.descricao}</td>
                                         <td className="px-6 py-4 h-16 text-sm text-gray-500 truncate">{ocorrencia.status}</td>
                                         <td className="px-6 py-4 h-16 text-sm text-gray-500">
-                                            <button 
+                                            <button
                                                 onClick={() => handleEditClick(ocorrencia)}
-                                                className="text-blue-600 hover:text-blue-800"
+                                                className="text-blue-600 hover:text-blue-800 cursor-pointer"
                                             >
                                                 Editar
                                             </button>
@@ -85,6 +80,14 @@ const CompOcorrencias = () => {
                             </tbody>
                         </table>
                     </div>
+                </div>
+                <div className="flex justify-end">
+                    <button
+                        onClick={() => setIsModalOpen(true)}
+                        className="bg-blue-500 cursor-pointer text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors"
+                    >
+                        + Adicionar Ocorrência
+                    </button>
                 </div>
             </div>
 
