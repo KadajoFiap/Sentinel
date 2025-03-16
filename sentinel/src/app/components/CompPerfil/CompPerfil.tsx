@@ -22,7 +22,7 @@ const CompPerfil = ({ email }: PerfilProps) => {
         <div className="relative">
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="flex items-center space-x-2 text-gray-700 hover:text-gray-900"
+                className="cursor-pointer flex items-center space-x-2 text-gray-700 hover:text-gray-900"
             >
                 <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white">
                     {email.charAt(0).toUpperCase()}
@@ -40,7 +40,7 @@ const CompPerfil = ({ email }: PerfilProps) => {
                     </div>
                     <button
                         onClick={handleLogout}
-                        className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                        className="cursor-pointer block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
                     >
                         Sair
                     </button>

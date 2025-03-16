@@ -91,13 +91,13 @@ const CompEditOcorrencia = ({ isOpen, onClose, onEdit, ocorrencia }: OcorrenciaM
                         <button
                             type="button"
                             onClick={onClose}
-                            className="px-4 py-2 text-gray-600 hover:text-gray-800"
+                            className="cursor-pointer px-4 py-2 text-gray-600 hover:text-gray-800"
                         >
                             Cancelar
                         </button>
                         <button
                             type="submit"
-                            className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                            className="cursor-pointer px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
                         >
                             Salvar
                         </button>
