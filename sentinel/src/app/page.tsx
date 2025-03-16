@@ -13,22 +13,11 @@ export default function Home() {
     }
   }, [router]);
 
-  const handleLogout = () => {
-    localStorage.removeItem('isLoggedIn');
-    router.push('/Login');
-  };
-
   return (
     <>
       <div className='min-h-screen home-content bg-[#f4f4f4]'>
         <div className="p-4">
           <h1>Página Inicial</h1>
-          <button 
-            onClick={handleLogout}
-            className="bg-red-500 text-white px-4 py-2 rounded mt-4"
-          >
-            Sair
-          </button>
         </div>
       </div>
     </>
