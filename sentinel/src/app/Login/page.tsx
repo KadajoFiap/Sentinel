@@ -1,12 +1,14 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '../contexts/AuthContext';
 
 export default function Login() {
   // Estados para controle do formulário
   const [email, setEmail] = useState('admin@admin.com');
   const [password, setPassword] = useState('123456');
   const router = useRouter();
+  const { login } = useAuth();
 
   // Handler de submissão do formulário
   const handleSubmit = (e: React.FormEvent) => {
@@ -15,6 +17,7 @@ export default function Login() {
     // Validação básica de credenciais
     if (email === 'admin@admin.com' && password === '123456') {
       localStorage.setItem('isLoggedIn', 'true');
+      login(); // Call the login function from context
       router.push('/');
     } else {
       alert('Email ou senha incorretos!');

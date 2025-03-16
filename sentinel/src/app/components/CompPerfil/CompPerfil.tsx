@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '../../contexts/AuthContext';
 
 interface PerfilProps {
     email: string;
@@ -9,9 +10,11 @@ interface PerfilProps {
 const CompPerfil = ({ email }: PerfilProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const router = useRouter();
+    const { logout } = useAuth();
 
     const handleLogout = () => {
-        localStorage.removeItem('isLoggedIn');
+        logout();
+        setIsOpen(false);
         router.push('/Login');
     };
 

@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Header from "./components/CompHeader/CompHeader";
 import Footer from "./components/CompFooter/CompFooter";
+import { AuthProvider } from "./contexts/AuthContext";
 
 // Metadados da aplicação
 export const metadata: Metadata = {
-  title: "Sentinel",
+  title: "Sentinel - Sistema de Ocorrências",
   description: "Sistema de gerenciamento de ocorrências da CCR",
 };
 
@@ -18,9 +19,11 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body>
-        <Header />
-        <main>{children}</main>
-        <Footer />
+        <AuthProvider>
+          <Header />
+          <main>{children}</main>
+          <Footer />
+        </AuthProvider>
       </body>
     </html>
   );
