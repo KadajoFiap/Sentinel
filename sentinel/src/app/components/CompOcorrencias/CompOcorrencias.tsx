@@ -3,6 +3,7 @@ import { useState } from 'react';
 import CompAddOcorrencia from './CompAddOcorrencia';
 import CompEditOcorrencia from './CompEditOcorrencia';
 
+// Interface para tipagem das ocorrências
 interface Ocorrencia {
     id: number;
     data: string;
@@ -11,13 +12,17 @@ interface Ocorrencia {
 }
 
 const CompOcorrencias = () => {
+    // Estados para controle dos modais e dados
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [ocorrenciaParaEditar, setOcorrenciaParaEditar] = useState<Ocorrencia | null>(null);
+    
+    // Mock de dados iniciais
     const [ocorrencias, setOcorrencias] = useState<Ocorrencia[]>([
         { id: 1, data: '10/03/2024', descricao: 'Descrição inicial', status: 'Em andamento' }
     ]);
 
+    // Handlers para manipulação de ocorrências
     const handleAddOcorrencia = (novaOcorrencia: Ocorrencia) => {
         setOcorrencias([...ocorrencias, novaOcorrencia]);
     };

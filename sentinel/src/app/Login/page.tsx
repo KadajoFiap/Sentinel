@@ -3,18 +3,19 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function Login() {
+  // Estados para controle do formulário
   const [email, setEmail] = useState('admin@admin.com');
   const [password, setPassword] = useState('123456');
   const router = useRouter();
 
+  // Handler de submissão do formulário
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Verificação básica de credenciais
+    // Validação básica de credenciais
     if (email === 'admin@admin.com' && password === '123456') {
-      // Salva no localStorage
       localStorage.setItem('isLoggedIn', 'true');
-      router.push('/'); // Redireciona para a página inicial
+      router.push('/');
     } else {
       alert('Email ou senha incorretos!');
     }

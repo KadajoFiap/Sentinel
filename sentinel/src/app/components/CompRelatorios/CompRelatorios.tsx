@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import CompViewRelatorio from './CompViewRelatorio';
 
+// Interfaces para tipagem dos dados
 interface Relatorio {
     id: number;
     nome: string;
@@ -17,8 +18,11 @@ interface Ocorrencia {
 }
 
 const CompRelatorios = () => {
+    // Estados para controle do modal de visualização
     const [isViewModalOpen, setIsViewModalOpen] = useState(false);
     const [selectedRelatorio, setSelectedRelatorio] = useState<Relatorio | null>(null);
+    
+    // Dados dos relatórios mensais
     const [relatorios, setRelatorios] = useState<Relatorio[]>([
         { 
             id: 1, 
@@ -28,12 +32,13 @@ const CompRelatorios = () => {
         }
     ]);
 
-    // Simulação de ocorrências para o relatório
+    // Dados das ocorrências do período
     const [ocorrencias] = useState<Ocorrencia[]>([
         { id: 1, data: '10/03/2024', descricao: 'Ocorrência 1', status: 'Concluído' },
         { id: 2, data: '15/03/2024', descricao: 'Ocorrência 2', status: 'Pendente' },
     ]);
 
+    // Função para gerar e baixar o relatório em formato texto
     const handleDownload = (relatorio: Relatorio) => {
         const conteudoOcorrencias = ocorrencias
             .map(oc => `
@@ -55,6 +60,7 @@ OCORRÊNCIAS DO PERÍODO:
 ${conteudoOcorrencias}
         `;
 
+        // Criação e download do arquivo
         const blob = new Blob([conteudo], { type: 'text/plain' });
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
@@ -66,6 +72,7 @@ ${conteudoOcorrencias}
         window.URL.revokeObjectURL(url);
     };
 
+    // Funções de manipulação do modal de visualização
     const handleView = (relatorio: Relatorio) => {
         setSelectedRelatorio(relatorio);
         setIsViewModalOpen(true);

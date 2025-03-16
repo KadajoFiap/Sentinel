@@ -8,6 +8,7 @@ const Ocorrencias = () => {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(true);
 
+    // Verificação de autenticação ao carregar a página
     useEffect(() => {
         const checkAuth = () => {
             const isLoggedIn = localStorage.getItem('isLoggedIn');
@@ -25,10 +26,7 @@ const Ocorrencias = () => {
         return <CompLoading />;
     }
 
-    return(
-        <>
-            <CompOcorrencias />
-        </>
-    )
+    return <CompOcorrencias />;
 }
+
 export default Ocorrencias;
