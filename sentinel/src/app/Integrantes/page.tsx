@@ -24,13 +24,15 @@ const Integrantes = () => {
         return <CompLoading />;
     }
 
-    return(
+    return (
         <>
-            <div className="min-h-screen bg-[#f4f4f4] pt-30 pl-10 pr-10 pb-30">
+            <div className="min-h-screen bg-[#f4f4f4] pt-30 pl-10 pr-10 lg:pl-20 lg:pr-20 md:pl-15 md:pr-15">
                 <h1 className="font-semibold text-[30px]">Integrantes - TDSPS</h1>
-                <CompKaue />
-                <CompDavi />
-                <CompJoao />
+                <div className="lg:flex lg:gap-40 justify-center lg:content-center">
+                    <CompKaue />
+                    <CompDavi />
+                    <CompJoao />
+                </div>
             </div>
         </>
     )

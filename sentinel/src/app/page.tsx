@@ -37,7 +37,7 @@ export default function Home() {
   }, [isLoggedIn, router]);
 
   return (
-    <div className='min-h-screen bg-[#f4f4f4] pt-30 pl-10 pr-10 lg:pl-20 lg:pr-20 pb-10'>
+    <div className='min-h-screen bg-[#f4f4f4] pt-30 pl-10 pr-10 lg:pl-20 lg:pr-20 md:pl-15 md:pr-15 pb-10'>
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-[30px] font-medium">Sentinel</h1>
       </div>

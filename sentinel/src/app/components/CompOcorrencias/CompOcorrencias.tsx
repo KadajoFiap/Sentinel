@@ -40,13 +40,13 @@ const CompOcorrencias = () => {
 
     return (
         <>
-            <div className="bg-[#f4f4f4] min-h-screen pt-30 ps-10 pe-10 pb-10">
+            <div className="bg-[#f4f4f4] min-h-screen pt-30 pl-10 pr-10 lg:pl-20 lg:pr-20 md:pl-15 md:pr-15">
                 <div className="flex justify-between items-center mb-8">
                     <h1 className="text-[30px] font-medium">Ocorrências</h1>
                 </div>
 
 
-                <div className="bg-white rounded-lg shadow-md min-h-[580px] max-h-[580px] flex flex-col mb-4">
+                <div className="bg-white rounded-lg shadow-md overflow-y-auto min-h-[580px] max-h-[580px] lg:min-h-[800px] 2xl:min-h-[620px] md:min-h-[750px] flex flex-col mb-4">
                     <div className="flex-1 overflow-auto">
                         <table className="min-w-full table-fixed">
                             <thead className="bg-gray-100 sticky top-0">
