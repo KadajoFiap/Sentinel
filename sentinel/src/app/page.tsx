@@ -55,23 +55,23 @@ export default function Home() {
           </Link>
         </div>
         
-        <div className="flex-1 overflow-auto">
-          <table className="min-w-full table-fixed">
-            <thead className="bg-gray-100 sticky top-0">
+        <div className="flex-1 overflow-auto px-6">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead>
               <tr>
-                <th className="w-24 px-6 py-3 text-left text-sm font-semibold text-gray-600 bg-gray-100">ID</th>
-                <th className="w-32 px-6 py-3 text-left text-sm font-semibold text-gray-600 bg-gray-100">Data</th>
-                <th className="w-[45%] px-6 py-3 text-left text-sm font-semibold text-gray-600 bg-gray-100">Descrição</th>
-                <th className="w-32 px-6 py-3 text-left text-sm font-semibold text-gray-600 bg-gray-100">Status</th>
+                <th scope="col" className="py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-24">ID</th>
+                <th scope="col" className="py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-32">Data</th>
+                <th scope="col" className="py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Descrição</th>
+                <th scope="col" className="py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-32">Status</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="bg-white divide-y divide-gray-200">
               {ocorrencias.slice(0, 5).map((ocorrencia) => (
                 <tr key={ocorrencia.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 h-16 text-sm text-gray-500 truncate">{String(ocorrencia.id).padStart(3, '0')}</td>
-                  <td className="px-6 py-4 h-16 text-sm text-gray-500 truncate">{ocorrencia.data}</td>
-                  <td className="px-6 py-4 h-16 text-sm text-gray-500 truncate">{ocorrencia.descricao}</td>
-                  <td className="px-6 py-4 h-16 text-sm text-gray-500 truncate">{ocorrencia.status}</td>
+                  <td className="py-4 text-sm font-medium text-gray-900">{String(ocorrencia.id).padStart(3, '0')}</td>
+                  <td className="py-4 text-sm text-gray-500">{ocorrencia.data}</td>
+                  <td className="py-4 text-sm text-gray-900">{ocorrencia.descricao}</td>
+                  <td className="py-4 text-sm text-gray-500">{ocorrencia.status}</td>
                 </tr>
               ))}
             </tbody>
@@ -94,23 +94,23 @@ export default function Home() {
           </Link>
         </div>
         
-        <div className="flex-1 overflow-auto">
-          <table className="min-w-full table-fixed">
-            <thead className="bg-gray-100 sticky top-0">
+        <div className="flex-1 overflow-auto px-6">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead>
               <tr>
-                <th className="w-24 px-6 py-3 text-left text-sm font-semibold text-gray-600 bg-gray-100">ID</th>
-                <th className="w-[35%] px-6 py-3 text-left text-sm font-semibold text-gray-600 bg-gray-100">Nome</th>
-                <th className="w-32 px-6 py-3 text-left text-sm font-semibold text-gray-600 bg-gray-100">Razão</th>
-                <th className="w-32 px-6 py-3 text-left text-sm font-semibold text-gray-600 bg-gray-100">Data</th>
+                <th scope="col" className="py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-24">ID</th>
+                <th scope="col" className="py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nome</th>
+                <th scope="col" className="py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-32">Razão</th>
+                <th scope="col" className="py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-32">Data</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="bg-white divide-y divide-gray-200">
               {relatorios.slice(0, 5).map((relatorio) => (
                 <tr key={relatorio.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 h-16 text-sm text-gray-500 truncate">{String(relatorio.id).padStart(3, '0')}</td>
-                  <td className="px-6 py-4 h-16 text-sm text-gray-500 truncate">{relatorio.nome}</td>
-                  <td className="px-6 py-4 h-16 text-sm text-gray-500 truncate">{relatorio.razao}</td>
-                  <td className="px-6 py-4 h-16 text-sm text-gray-500 truncate">{relatorio.data}</td>
+                  <td className="py-4 text-sm font-medium text-gray-900">{String(relatorio.id).padStart(3, '0')}</td>
+                  <td className="py-4 text-sm text-gray-900">{relatorio.nome}</td>
+                  <td className="py-4 text-sm text-gray-500">{relatorio.razao}</td>
+                  <td className="py-4 text-sm text-gray-500">{relatorio.data}</td>
                 </tr>
               ))}
             </tbody>
