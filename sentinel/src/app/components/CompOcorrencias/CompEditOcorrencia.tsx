@@ -54,7 +54,7 @@ const CompEditOcorrencia = ({ isOpen, onClose, onEdit, ocorrencia }: OcorrenciaM
 
     return (
         <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50">
-            <div className="bg-white/90 p-6 rounded-lg w-96 shadow-xl">
+            <div className="bg-white/90 p-6 rounded-lg w-96 shadow-xl mx-4 md:mx-0">
                 <h2 className="text-xl font-bold mb-4">Editar Ocorrência</h2>
                 
                 <form onSubmit={handleSubmit}>

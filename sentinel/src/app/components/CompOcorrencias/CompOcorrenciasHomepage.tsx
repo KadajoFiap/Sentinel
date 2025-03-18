@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 
 interface Ocorrencia {
@@ -16,7 +17,7 @@ const CompOcorrenciasHomepage: React.FC<CompOcorrenciasHomepageProps> = ({ ocorr
     <div className="bg-white rounded-lg shadow-md min-h-[280px] max-h-[280px] lg:min-h-[310px] lg:max-h-[310px] md:min-h-[410px] md:max-h-[410px] flex flex-col mb-8">
       <div className="flex justify-between items-center p-6 pb-4">
         <h2 className="text-xl font-semibold text-gray-800">Ocorrências Recentes</h2>
-        <a 
+        <Link 
           href="/Ocorrencias"
           className="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center"
         >
@@ -24,7 +25,7 @@ const CompOcorrenciasHomepage: React.FC<CompOcorrenciasHomepageProps> = ({ ocorr
           <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
-        </a>
+        </Link>
       </div>
       
       <div className="flex-1 overflow-x-auto">

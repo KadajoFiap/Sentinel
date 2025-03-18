@@ -25,7 +25,7 @@ const CompAvisoDetail = ({ isOpen, onClose, aviso, onRead }: AvisoDetailProps) =
 
     return (
         <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50">
-            <div className="bg-white/90 p-6 rounded-lg w-[600px] shadow-xl">
+            <div className="bg-white/90 p-6 rounded-lg w-[600px] shadow-xl mx-4 md:mx-0">
                 <div className="flex justify-between items-start mb-6">
                     <div>
                         <h2 className="text-xl font-bold text-gray-800">{aviso.titulo}</h2>
@@ -41,7 +41,7 @@ const CompAvisoDetail = ({ isOpen, onClose, aviso, onRead }: AvisoDetailProps) =
                     </button>
                 </div>
 
-                <div className="prose max-w-none">
+                <div className="prose max-w-none mx-2">
                     <div className="text-gray-700 whitespace-pre-wrap">
                         {aviso.conteudo}
                     </div>

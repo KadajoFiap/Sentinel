@@ -63,7 +63,7 @@ const CompCaixaEntrada = () => {
                 </button>
 
                 {isOpen && (
-                    <div className="absolute right-0 mt-2 w-80 bg-white rounded-md shadow-lg py-1 z-50">
+                    <div className="absolute left-1/2 md:right-0 transform -translate-x-1/2 mt-2 w-80 bg-white rounded-md shadow-lg py-1 z-50">
                         <div className="px-4 py-2 text-lg font-semibold border-b">
                             Caixa de Entrada
                         </div>

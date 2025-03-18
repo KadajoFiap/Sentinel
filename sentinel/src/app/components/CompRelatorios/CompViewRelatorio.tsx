@@ -27,7 +27,7 @@ const CompViewRelatorio = ({ isOpen, onClose, relatorio, ocorrencias }: ViewRela
 
     return (
         <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50">
-            <div className="bg-white/90 p-6 rounded-lg w-[800px] shadow-xl max-h-[80vh] overflow-auto">
+            <div className="bg-white/90 p-6 rounded-lg w-[800px] shadow-xl max-h-[80vh] overflow-auto mx-4 md:mx-0">
                 <div className="flex justify-between items-center mb-6">
                     <h2 className="text-xl font-bold">Visualizar Relatório - {relatorio.nome}</h2>
                     <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
