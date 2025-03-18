@@ -26,7 +26,7 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat bg-gray-100" style={{ backgroundImage: "url('/background.png')" }}>
-      <div className="bg-white p-4 rounded-lg shadow-md w-75">
+      <div className="bg-white p-4 rounded-lg shadow-md w-100 mx-4 md:mx-0 ">
         <h1 className="text-2xl font-bold mb-6 text-center">Login</h1>
         
         <form onSubmit={handleSubmit} className="space-y-4">
