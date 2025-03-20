@@ -98,7 +98,7 @@ Utilize prefixos nos commits para melhor organização:
 Para questões e sugestões, por favor abra uma issue no repositório.
 
 ## 📄 Licença
-Este projeto está sob a licença [Inserir Tipo de Licença]
+Este projeto está sob a licença [MIT License](https://github.com/KadajoFiap/Sentinel/blob/main/LICENSE)
 
 ---
 Desenvolvido com ❤️ pela Equipe TRNT
