@@ -1,7 +1,21 @@
 'use client';
 import Link from "next/link";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const NotFound = () => {
+    
+    /* 
+    const router = useRouter();
+        useEffect(() => {
+            const isAuthenticated = localStorage.getItem('token'); 
+            
+            if (!isAuthenticated) {
+                router.push('/Login');
+            }
+        }, [router]);
+    */
+
     return (
         <>
             <div className='bg-[#f4f4f4] min-h-screen flex flex-col items-center justify-center gap-4'>
