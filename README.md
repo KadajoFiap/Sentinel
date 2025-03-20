@@ -59,28 +59,6 @@ npm run dev
 - [ ] Documentação Completa
 - [ ] Deploy em Produção
 
-## 📁 Estrutura do Projeto
-sentinel/
-
-├── src/
-
-│ ├── app/
-
-│ │ ├── components/
-
-│ │ ├── layouts/
-
-│ │ └── pages/
-
-│ ├── styles/
-
-│ └── utils/
-
-├── public/
-
-└── ...
-
-
 ## 🔧 Configuração de Desenvolvimento
 
 ### Padrões de Código
