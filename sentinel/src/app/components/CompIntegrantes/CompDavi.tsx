@@ -2,7 +2,7 @@ import Image from 'next/image';
 const CompDavi = () => {
     return (
         <>
-            <div className="pt-30 2xl:pt-40 lg:block md:flex md:justify-center md:gap-14">
+            <div className="pt-30 lg:pt-20 2xl:pt-40 lg:block md:flex md:justify-center md:gap-14">
                 <div className="flex justify-center">
                     <Image className='rounded-[10rem] border-4 border-[#736D6D]'
                         src="/xeds.jpg"

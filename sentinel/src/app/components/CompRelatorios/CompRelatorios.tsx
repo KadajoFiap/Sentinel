@@ -87,7 +87,7 @@ ${conteudoOcorrencias}
 
     return (
         <>
-            <div className="bg-[#f4f4f4] min-h-screen pt-30 pb-10 lg:pb-30 pl-10 pr-10 lg:pl-20 lg:pr-20 md:pl-15 md:pr-15">
+            <div className="bg-[#f4f4f4] min-h-screen pt-30 pb-30 pl-10 pr-10 lg:pl-20 lg:pr-20 md:pl-15 md:pr-15">
                 <div className="flex justify-between items-center mb-8">
                     <h1 className="text-[30px] font-medium">Relatórios</h1>
                 </div>
