@@ -61,15 +61,25 @@ npm run dev
 
 ## 📁 Estrutura do Projeto
 sentinel/
+
 ├── src/
+
 │ ├── app/
+
 │ │ ├── components/
+
 │ │ ├── layouts/
+
 │ │ └── pages/
+
 │ ├── styles/
+
 │ └── utils/
+
 ├── public/
+
 └── ...
+
 
 ## 🔧 Configuração de Desenvolvimento
 
