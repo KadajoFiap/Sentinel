@@ -8,11 +8,11 @@ interface Ocorrencia {
   status: string;
 }
 
-interface CompOcorrenciasHomepageProps {
+interface OcorrenciasHomepageProps {
   ocorrencias: Ocorrencia[];
 }
 
-const CompOcorrenciasHomepage: React.FC<CompOcorrenciasHomepageProps> = ({ ocorrencias }) => {
+const OcorrenciasHomepage: React.FC<OcorrenciasHomepageProps> = ({ ocorrencias }) => {
   return (
     <div className="bg-white rounded-lg shadow-md min-h-[280px] max-h-[280px] lg:min-h-[310px] lg:max-h-[310px] md:min-h-[410px] md:max-h-[410px] flex flex-col mb-8">
       <div className="flex justify-between items-center p-6 pb-4">
@@ -56,4 +56,4 @@ const CompOcorrenciasHomepage: React.FC<CompOcorrenciasHomepageProps> = ({ ocorr
   );
 };
 
-export default CompOcorrenciasHomepage; 
+export default OcorrenciasHomepage; 

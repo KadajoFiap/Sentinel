@@ -15,7 +15,7 @@ interface OcorrenciaData {
     status: string;
 }
 
-const CompEditOcorrencia = ({ isOpen, onClose, onEdit, ocorrencia }: OcorrenciaModalProps) => {
+const EditOcorrencia = ({ isOpen, onClose, onEdit, ocorrencia }: OcorrenciaModalProps) => {
     const [formData, setFormData] = useState({
         descricao: '',
         status: 'Em andamento'
@@ -108,4 +108,4 @@ const CompEditOcorrencia = ({ isOpen, onClose, onEdit, ocorrencia }: OcorrenciaM
     );
 };
 
-export default CompEditOcorrencia;
+export default EditOcorrencia;

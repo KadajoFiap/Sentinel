@@ -34,13 +34,13 @@ export default function Evidencia({ videoUrl, titulo }: EvidenciaProps) {
                             </button>
                         </div>
                         <div className="relative aspect-video w-full">
-                            <video 
-                                className="w-full h-full rounded-lg shadow-lg"
-                                controls
+                            <iframe
                                 src={videoUrl}
-                            >
-                                Seu navegador não suporta o elemento de vídeo.
-                            </video>
+                                title={titulo}
+                                className="absolute top-0 left-0 w-full h-full rounded-lg shadow-lg"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                            />
                         </div>
                     </div>
                 </div>

@@ -26,7 +26,7 @@ const Ocorrencias = () => {
             data: '10/03/2024', 
             descricao: 'Descrição inicial', 
             status: 'Em andamento',
-            videoUrl: 'https://www.youtube.com/embed/DDh6Y4fsJeg'
+            videoUrl: 'https://www.youtube.com/embed/teCLp2DxwBw'
         }
     ]);
 

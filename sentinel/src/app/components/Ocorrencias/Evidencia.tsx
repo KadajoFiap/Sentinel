@@ -34,7 +34,7 @@ export default function Evidencia({ videoUrl, titulo }: EvidenciaProps) {
 
     return (
         <>
-            <Botao 
+            <Botao
                 onClick={() => setIsOpen(true)}
                 icon="view"
                 type="view"
@@ -43,7 +43,7 @@ export default function Evidencia({ videoUrl, titulo }: EvidenciaProps) {
             </Botao>
 
             {isOpen && (
-                <div 
+                <div
                     className="fixed inset-0 bg-black/20 backdrop-blur-[2px] flex items-center justify-center z-50"
                     onClick={(e) => {
                         if (e.target === e.currentTarget) setIsOpen(false);
@@ -61,16 +61,17 @@ export default function Evidencia({ videoUrl, titulo }: EvidenciaProps) {
                         </div>
                         <div className="relative aspect-video w-full bg-gray-50 rounded-lg overflow-hidden">
                             {error ? (
-                                <div className="w-full h-full flex items-center justify-center">
-                                    <p className="text-red-500">{error}</p>
+                                <div className="absolute inset-0 flex items-center justify-center text-red-500">
+                                    {error}
                                 </div>
                             ) : (
                                 <iframe
-                                    className="w-full h-full"
+                                    className="absolute top-0 left-0 w-full h-full"
                                     src={videoUrl}
                                     title={titulo}
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                     allowFullScreen
+                                    onError={handleVideoError}
                                 />
                             )}
                         </div>
@@ -79,4 +80,5 @@ export default function Evidencia({ videoUrl, titulo }: EvidenciaProps) {
             )}
         </>
     );
-} 
+}
+
