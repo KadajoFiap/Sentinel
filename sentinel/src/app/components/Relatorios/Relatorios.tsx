@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import ViewRelatorio from './ViewRelatorio';
+import BotaoPadrao from '../Botao/Botao';
 
 // Interfaces para tipagem dos dados
 interface Relatorio {
@@ -15,6 +16,7 @@ interface Ocorrencia {
     data: string;
     descricao: string;
     status: string;
+    videoUrl?: string;
 }
 
 const Relatorios = () => {
@@ -22,50 +24,62 @@ const Relatorios = () => {
     const [isViewModalOpen, setIsViewModalOpen] = useState(false);
     const [selectedRelatorio, setSelectedRelatorio] = useState<Relatorio | null>(null);
     
+    const getCurrentMonthYear = () => {
+        const date = new Date();
+        const month = date.toLocaleString('pt-BR', { month: 'short' });
+        const year = date.getFullYear();
+        return `${month}/${year}`;
+    };
+
     // Dados dos relatórios mensais
     const [relatorios, setRelatorios] = useState<Relatorio[]>([
         { 
             id: 1, 
-            nome: "Mar/2024",
+            nome: getCurrentMonthYear(),
             razao: "3/5",
-            data: "01/03/2024"
+            data: new Date().toLocaleDateString('pt-BR')
         }
     ]);
 
     // Dados das ocorrências do período
     const [ocorrencias] = useState<Ocorrencia[]>([
-        { id: 1, data: '10/03/2024', descricao: 'Ocorrência 1', status: 'Concluído' },
-        { id: 2, data: '15/03/2024', descricao: 'Ocorrência 2', status: 'Pendente' },
+        { 
+            id: 1, 
+            data: '10/03/2024', 
+            descricao: 'Ocorrência 1', 
+            status: 'Concluído',
+            videoUrl: 'https://www.youtube.com/embed/DDh6Y4fsJeg'
+        },
+        { 
+            id: 2, 
+            data: '15/03/2024', 
+            descricao: 'Ocorrência 2', 
+            status: 'Pendente',
+            videoUrl: 'https://www.youtube.com/embed/DDh6Y4fsJeg'
+        },
     ]);
 
-    // Função para gerar e baixar o relatório em formato texto
+    // Função para gerar e baixar o relatório em formato JSON
     const handleDownload = (relatorio: Relatorio) => {
-        const conteudoOcorrencias = ocorrencias
-            .map(oc => `
-Ocorrência #${String(oc.id).padStart(3, '0')}
-Data: ${oc.data}
-Descrição: ${oc.descricao}
-Status: ${oc.status}
--------------------`)
-            .join('\n');
+        const relatorioJSON = {
+            id: relatorio.id,
+            nome: relatorio.nome,
+            razao: relatorio.razao,
+            data: relatorio.data,
+            ocorrencias: ocorrencias.map(oc => ({
+                id: oc.id,
+                data: oc.data,
+                descricao: oc.descricao,
+                status: oc.status
+            }))
+        };
 
-        const conteudo = `
-Relatório Mensal - ${relatorio.nome}
-ID: ${String(relatorio.id).padStart(3, '0')}
-Período: ${relatorio.nome}
-Razão de Conclusão: ${relatorio.razao}
-Data de Geração: ${relatorio.data}
-
-OCORRÊNCIAS DO PERÍODO:
-${conteudoOcorrencias}
-        `;
-
-        // Criação e download do arquivo
-        const blob = new Blob([conteudo], { type: 'text/plain' });
+        // Criação e download do arquivo JSON
+        const blob = new Blob([JSON.stringify(relatorioJSON, null, 2)], { type: 'application/json' });
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
-        link.download = `relatorio-${relatorio.nome.toLowerCase().replace('/', '-')}.txt`;
+        link.download = `relatorio-${relatorio.nome.toLowerCase().replace('/', '-')}.json`;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -76,13 +90,6 @@ ${conteudoOcorrencias}
     const handleView = (relatorio: Relatorio) => {
         setSelectedRelatorio(relatorio);
         setIsViewModalOpen(true);
-    };
-
-    const getCurrentMonthYear = () => {
-        const date = new Date();
-        const month = date.toLocaleString('pt-BR', { month: 'short' });
-        const year = date.getFullYear();
-        return `${month}/${year}`;
     };
 
     return (
@@ -105,43 +112,48 @@ ${conteudoOcorrencias}
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200">
-                                {relatorios.map((relatorio) => (
-                                    <tr key={relatorio.id} className="hover:bg-gray-50">
-                                        <td className="px-6 py-4 h-16 text-sm text-gray-500 truncate">
-                                            {String(relatorio.id).padStart(3, '0')}
-                                        </td>
-                                        <td className="px-6 py-4 h-16 text-sm text-gray-500 truncate">
-                                            {relatorio.nome}
-                                        </td>
-                                        <td className="px-6 py-4 h-16 text-sm text-gray-500 truncate">
-                                            {relatorio.razao}
-                                        </td>
-                                        <td className="px-6 py-4 h-16 text-sm text-gray-500 truncate">
-                                            {relatorio.data}
-                                        </td>
-                                        <td className="px-6 py-4 h-16 text-sm text-gray-500 flex gap-4">
-                                            <button
-                                                onClick={() => handleView(relatorio)}
-                                                className="text-blue-600 hover:text-blue-800 cursor-pointer flex items-center gap-1"
-                                            >
-                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                                </svg>
-                                                Ver
-                                            </button>
-                                            <button
-                                                onClick={() => handleDownload(relatorio)}
-                                                className="text-green-600 hover:text-green-800 cursor-pointer flex items-center gap-1"
-                                            >
-                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                                </svg>
-                                                Baixar
-                                            </button>
+                                {relatorios.length === 0 ? (
+                                    <tr>
+                                        <td colSpan={5} className="px-6 py-4 h-16 text-center text-gray-500">
+                                            Nenhum relatório disponível
                                         </td>
                                     </tr>
-                                ))}
+                                ) : (
+                                    relatorios.map((relatorio) => (
+                                        <tr key={relatorio.id} className="hover:bg-gray-50">
+                                            <td className="px-6 py-4 h-16 text-sm text-gray-500 truncate">
+                                                {String(relatorio.id).padStart(3, '0')}
+                                            </td>
+                                            <td className="px-6 py-4 h-16 text-sm text-gray-500 truncate">
+                                                {relatorio.nome}
+                                            </td>
+                                            <td className="px-6 py-4 h-16 text-sm text-gray-500 truncate">
+                                                {relatorio.razao}
+                                            </td>
+                                            <td className="px-6 py-4 h-16 text-sm text-gray-500 truncate">
+                                                {relatorio.data}
+                                            </td>
+                                            <td className="px-6 py-4 h-16 text-sm text-gray-500">
+                                                <div className="flex gap-4">
+                                                    <BotaoPadrao 
+                                                        onClick={() => handleView(relatorio)}
+                                                        icon="view"
+                                                        type="view"
+                                                    >
+                                                        Ver Relatório
+                                                    </BotaoPadrao>
+                                                    <BotaoPadrao
+                                                        onClick={() => handleDownload(relatorio)}
+                                                        icon="download"
+                                                        type="download"
+                                                    >
+                                                        Baixar
+                                                    </BotaoPadrao>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))
+                                )}
                             </tbody>
                         </table>
                     </div>

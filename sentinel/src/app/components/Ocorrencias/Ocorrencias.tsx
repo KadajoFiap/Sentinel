@@ -1,7 +1,8 @@
 'use client';
 import { useState } from 'react';
-import CompAddOcorrencia from './AddOcorrencia';
-import CompEditOcorrencia from './EditOcorrencia';
+import CompAddOcorrencia from './AddOcorrencia/AddOcorrencia';
+import CompEditOcorrencia from './EditOcorrencia/EditOcorrencia';
+import Evidencia from './Evidencia/Evidencia';
 
 // Interface para tipagem das ocorrências
 interface Ocorrencia {
@@ -9,9 +10,10 @@ interface Ocorrencia {
     data: string;
     descricao: string;
     status: string;
+    videoUrl?: string;
 }
 
-const CompOcorrencias = () => {
+const Ocorrencias = () => {
     // Estados para controle dos modais e dados
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -19,7 +21,13 @@ const CompOcorrencias = () => {
     
     // Mock de dados iniciais
     const [ocorrencias, setOcorrencias] = useState<Ocorrencia[]>([
-        { id: 1, data: '10/03/2024', descricao: 'Descrição inicial', status: 'Em andamento' }
+        { 
+            id: 1, 
+            data: '10/03/2024', 
+            descricao: 'Descrição inicial', 
+            status: 'Em andamento',
+            videoUrl: 'https://www.youtube.com/embed/DDh6Y4fsJeg'
+        }
     ]);
 
     // Handlers para manipulação de ocorrências
@@ -52,26 +60,35 @@ const CompOcorrencias = () => {
                             <thead className="bg-gray-100 sticky top-0">
                                 <tr>
                                     <th className="w-24 px-6 py-3 text-left text-sm font-semibold text-gray-600 bg-gray-100">ID</th>
+                                    <th className="w-[35%] px-6 py-3 text-left text-sm font-semibold text-gray-600 bg-gray-100">Descrição</th>
                                     <th className="w-32 px-6 py-3 text-left text-sm font-semibold text-gray-600 bg-gray-100">Data</th>
-                                    <th className="w-[45%] px-6 py-3 text-left text-sm font-semibold text-gray-600 bg-gray-100">Descrição</th>
                                     <th className="w-32 px-6 py-3 text-left text-sm font-semibold text-gray-600 bg-gray-100">Status</th>
-                                    <th className="w-24 px-6 py-3 text-left text-sm font-semibold text-gray-600 bg-gray-100">Ações</th>
+                                    <th className="w-32 px-6 py-3 text-left text-sm font-semibold text-gray-600 bg-gray-100">Evidência</th>
+                                    <th className="w-40 px-6 py-3 text-left text-sm font-semibold text-gray-600 bg-gray-100">Ações</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200">
                                 {ocorrencias.map((ocorrencia) => (
                                     <tr key={ocorrencia.id} className="hover:bg-gray-50">
                                         <td className="px-6 py-4 h-16 text-sm text-gray-500 truncate">{String(ocorrencia.id).padStart(3, '0')}</td>
-                                        <td className="px-6 py-4 h-16 text-sm text-gray-500 truncate">{ocorrencia.data}</td>
                                         <td className="px-6 py-4 h-16 text-sm text-gray-500 truncate">{ocorrencia.descricao}</td>
+                                        <td className="px-6 py-4 h-16 text-sm text-gray-500 truncate">{ocorrencia.data}</td>
                                         <td className="px-6 py-4 h-16 text-sm text-gray-500 truncate">{ocorrencia.status}</td>
                                         <td className="px-6 py-4 h-16 text-sm text-gray-500">
-                                            <button
-                                                onClick={() => handleEditClick(ocorrencia)}
-                                                className="text-blue-600 hover:text-blue-800 cursor-pointer"
-                                            >
-                                                Editar
-                                            </button>
+                                            <Evidencia 
+                                                videoUrl={ocorrencia.videoUrl || "URL_DO_VIDEO"} 
+                                                titulo={`Evidência da Ocorrência ${ocorrencia.id}`} 
+                                            />
+                                        </td>
+                                        <td className="px-6 py-4 h-16 text-sm text-gray-500">
+                                            <div className="flex gap-2">
+                                                <button
+                                                    onClick={() => handleEditClick(ocorrencia)}
+                                                    className="text-blue-600 hover:text-blue-800 cursor-pointer"
+                                                >
+                                                    Editar
+                                                </button>
+                                            </div>
                                         </td>
                                     </tr>
                                 ))}
@@ -118,4 +135,4 @@ const CompOcorrencias = () => {
     );
 };
 
-export default CompOcorrencias;
+export default Ocorrencias;

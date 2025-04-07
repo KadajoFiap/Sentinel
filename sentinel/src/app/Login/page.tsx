@@ -11,14 +11,22 @@ export default function Login() {
   const { login } = useAuth();
 
   // Handler de submissão do formulário
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // Validação básica de credenciais
     if (email === 'admin@admin.com' && password === '123456') {
-      localStorage.setItem('isLoggedIn', 'true');
-      login(); // Call the login function from context
-      router.push('/');
+      try {
+        // Primeiro faz o login
+        login();
+        // Depois redireciona
+        router.push('/');
+        // Força o refresh da página para garantir que o estado de autenticação seja atualizado
+        router.refresh();
+      } catch (error) {
+        console.error('Erro ao fazer login:', error);
+        alert('Erro ao fazer login. Por favor, tente novamente.');
+      }
     } else {
       alert('Email ou senha incorretos!');
     }

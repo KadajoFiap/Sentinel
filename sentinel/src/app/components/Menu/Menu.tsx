@@ -54,7 +54,7 @@ export default function Menu(): React.ReactElement {
                                     href={rota.to}
                                     onClick={handleItemClick}
                                     target={rota.target}
-                                    className="no-underline text-white text-[38px] md:text-[50px] lg:text-[30px] 2xl:text-[44px] font-medium hover:text-blue-500 transition-colors duration-200 flex items-center gap-3"
+                                    className="no-underline text-white text-[30px] md:text-[50px] lg:text-[30px] 2xl:text-[40px] font-medium hover:text-blue-500 transition-colors duration-200 flex items-center gap-3"
                                 >
                                     <div className="mr-3 w-3 h-3 border-2 border-white bg-white"></div>
                                     {rota.label}
