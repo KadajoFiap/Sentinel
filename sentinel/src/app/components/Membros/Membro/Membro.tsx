@@ -21,9 +21,9 @@ export default function item() {
     ]
 
     return (
-        <div className="pt-30 lg:pt-20 2xl:pt-40 lg:flex md:flex md:justify-center md:gap-14 lg:gap-28">
+        <div className="pt-30 lg:pt-20 2xl:pt-40 lg:flex md:flex md:justify-center md:gap-14 lg:gap-40">
             {lista.map((integrante, index) => (
-                <div key={index}>
+                <div key={index} className="pb-20">
                     <div className="flex justify-center">
                         <Image className='rounded-[10rem] border-4 border-[#736D6D]'
                             src={integrante.photo}

@@ -3,7 +3,7 @@ import Membro from './Membro/Membro'
 
 export default function Membros() {
     return (
-        <div className="lg:flex lg:gap-40 justify-center lg:content-center">
+        <div className="lg:flex justify-center lg:content-center">
             <Membro />
         </div>
     )
