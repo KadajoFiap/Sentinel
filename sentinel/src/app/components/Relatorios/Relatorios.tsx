@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import CompViewRelatorio from './CompViewRelatorio';
+import ViewRelatorio from './ViewRelatorio';
 
 // Interfaces para tipagem dos dados
 interface Relatorio {
@@ -17,7 +17,7 @@ interface Ocorrencia {
     status: string;
 }
 
-const CompRelatorios = () => {
+const Relatorios = () => {
     // Estados para controle do modal de visualização
     const [isViewModalOpen, setIsViewModalOpen] = useState(false);
     const [selectedRelatorio, setSelectedRelatorio] = useState<Relatorio | null>(null);
@@ -149,7 +149,7 @@ ${conteudoOcorrencias}
             </div>
 
             {selectedRelatorio && (
-                <CompViewRelatorio
+                <ViewRelatorio
                     isOpen={isViewModalOpen}
                     onClose={() => {
                         setIsViewModalOpen(false);
@@ -163,4 +163,4 @@ ${conteudoOcorrencias}
     );
 };
 
-export default CompRelatorios; 
+export default Relatorios; 

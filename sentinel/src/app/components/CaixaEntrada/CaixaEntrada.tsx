@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import CompAvisoDetail from './CompAvisoDetail';
+import AvisoDetail from './AvisoDetail';
 
 interface Mensagem {
     id: number;
@@ -10,8 +10,8 @@ interface Mensagem {
     lida: boolean;
 }
 
-const CompCaixaEntrada = () => {
-    const [isOpen, setIsOpen] = useState(false);
+const CaixaEntrada = () => {
+const [isOpen, setIsOpen] = useState(false);
     const [isDetailOpen, setIsDetailOpen] = useState(false);
     const [selectedMensagem, setSelectedMensagem] = useState<Mensagem | null>(null);
     const [mensagens, setMensagens] = useState<Mensagem[]>([
@@ -95,7 +95,7 @@ const CompCaixaEntrada = () => {
             </div>
 
             {selectedMensagem && (
-                <CompAvisoDetail
+                <AvisoDetail
                     isOpen={isDetailOpen}
                     onClose={() => {
                         setIsDetailOpen(false);
@@ -109,4 +109,4 @@ const CompCaixaEntrada = () => {
     );
 };
 
-export default CompCaixaEntrada;
+export default CaixaEntrada;

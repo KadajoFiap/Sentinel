@@ -1,8 +1,8 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import CompRelatorios from "@/app/components/CompRelatorios/CompRelatorios";
-import CompLoading from "@/app/components/CompLoading/CompLoading";
+import CompRelatorios from "@/app/components/Relatorios/Relatorios";
+import CompLoading from "@/app/components/Loading/Loading";
 import { useAuth } from '../contexts/AuthContext';
 
 const Relatorios = () => {

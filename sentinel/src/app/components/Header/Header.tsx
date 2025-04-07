@@ -1,8 +1,8 @@
 "use client";
 
-import CompMenu from '../CompMenu/CompMenu';
-import CompPerfil from '../CompPerfil/CompPerfil';
-import CompCaixaEntrada from '../CompCaixaEntrada/CompCaixaEntrada';
+import CompMenu from '../Menu/Menu';
+import CompPerfil from '../Perfil/Perfil';
+import CaixaEntrada from '../CaixaEntrada/CaixaEntrada';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useAuth } from '../../contexts/AuthContext';
@@ -25,7 +25,7 @@ const Header = () => {
             <div className="flex items-center gap-6">
                 {showComponents && (
                     <>
-                        <CompCaixaEntrada />
+                        <CaixaEntrada />
                         <CompPerfil email={userEmail} />
                     </>
                 )}

@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from './contexts/AuthContext';
 import Link from 'next/link';
-import CompRelatoriosHomepage from './components/CompRelatorios/CompRelatoriosHomepage';
-import CompOcorrenciasHomepage from './components/CompOcorrencias/CompOcorrenciasHomepage';
+import CompRelatoriosHomepage from './components/Relatorios/RelatoriosHomepage';
+import CompOcorrenciasHomepage from './components/Ocorrencias/OcorrenciasHomepage';
 
 interface Ocorrencia {
   id: number;

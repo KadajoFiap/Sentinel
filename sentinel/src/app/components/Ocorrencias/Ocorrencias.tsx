@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
-import CompAddOcorrencia from './CompAddOcorrencia';
-import CompEditOcorrencia from './CompEditOcorrencia';
+import CompAddOcorrencia from './AddOcorrencia';
+import CompEditOcorrencia from './EditOcorrencia';
 
 // Interface para tipagem das ocorrências
 interface Ocorrencia {

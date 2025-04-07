@@ -13,7 +13,7 @@ interface AvisoDetailProps {
     onRead: (id: number) => void;
 }
 
-const CompAvisoDetail = ({ isOpen, onClose, aviso, onRead }: AvisoDetailProps) => {
+const AvisoDetail = ({ isOpen, onClose, aviso, onRead }: AvisoDetailProps) => {
     if (!isOpen) return null;
 
     const handleClose = () => {
@@ -51,4 +51,4 @@ const CompAvisoDetail = ({ isOpen, onClose, aviso, onRead }: AvisoDetailProps) =
     );
 };
 
-export default CompAvisoDetail;
+export default AvisoDetail;

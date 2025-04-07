@@ -22,7 +22,7 @@ interface OcorrenciaData {
     status: string;
 }
 
-const CompViewRelatorio = ({ isOpen, onClose, relatorio, ocorrencias }: ViewRelatorioProps) => {
+const ViewRelatorio = ({ isOpen, onClose, relatorio, ocorrencias }: ViewRelatorioProps) => {
     if (!isOpen) return null;
 
     return (
@@ -78,4 +78,4 @@ const CompViewRelatorio = ({ isOpen, onClose, relatorio, ocorrencias }: ViewRela
     );
 };
 
-export default CompViewRelatorio;
+export default ViewRelatorio;
