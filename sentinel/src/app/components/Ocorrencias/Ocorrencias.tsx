@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
-import CompAddOcorrencia from './AddOcorrencia/AddOcorrencia';
-import CompEditOcorrencia from './EditOcorrencia/EditOcorrencia';
+import AddOcorrencia from './AddOcorrencia/AddOcorrencia';
+import EditOcorrencia from './EditOcorrencia/EditOcorrencia';
 import Evidencia from './Evidencia/Evidencia';
 
 // Interface para tipagem das ocorrências
@@ -113,7 +113,7 @@ const Ocorrencias = () => {
                 </div>
             </div>
 
-            <CompAddOcorrencia
+            <AddOcorrencia
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
                 onAdd={handleAddOcorrencia}
@@ -121,7 +121,7 @@ const Ocorrencias = () => {
             />
 
             {ocorrenciaParaEditar && (
-                <CompEditOcorrencia
+                <EditOcorrencia
                     isOpen={isEditModalOpen}
                     onClose={() => {
                         setIsEditModalOpen(false);

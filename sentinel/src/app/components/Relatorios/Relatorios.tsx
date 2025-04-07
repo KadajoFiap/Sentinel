@@ -32,7 +32,7 @@ const Relatorios = () => {
     };
 
     // Dados dos relatórios mensais
-    const [relatorios, setRelatorios] = useState<Relatorio[]>([
+    const [relatorios] = useState<Relatorio[]>([
         { 
             id: 1, 
             nome: getCurrentMonthYear(),

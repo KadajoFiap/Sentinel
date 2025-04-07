@@ -4,29 +4,17 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '../contexts/AuthContext';
 
 export default function Login() {
-  // Estados para controle do formulário
   const [email, setEmail] = useState('admin@admin.com');
   const [password, setPassword] = useState('123456');
   const router = useRouter();
   const { login } = useAuth();
 
-  // Handler de submissão do formulário
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Validação básica de credenciais
     if (email === 'admin@admin.com' && password === '123456') {
-      try {
-        // Primeiro faz o login
-        login();
-        // Depois redireciona
-        router.push('/');
-        // Força o refresh da página para garantir que o estado de autenticação seja atualizado
-        router.refresh();
-      } catch (error) {
-        console.error('Erro ao fazer login:', error);
-        alert('Erro ao fazer login. Por favor, tente novamente.');
-      }
+      login();
+      router.push('/');
     } else {
       alert('Email ou senha incorretos!');
     }
