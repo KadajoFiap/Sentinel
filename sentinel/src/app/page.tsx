@@ -5,13 +5,6 @@ import { useAuth } from './contexts/AuthContext';
 import RelatoriosHomepage from './components/Relatorios/RelatoriosHomepage';
 import OcorrenciasHomepage from './components/Ocorrencias/OcorrenciasHomepage/OcorrenciasHomepage';
 
-interface Ocorrencia {
-  id: number;
-  data: string;
-  descricao: string;
-  status: string;
-}
-
 interface Relatorio {
   id: number;
   nome: string;
@@ -22,9 +15,6 @@ interface Relatorio {
 export default function Home() {
   const router = useRouter();
   const { isLoggedIn } = useAuth();
-  const [ocorrencias] = useState<Ocorrencia[]>([
-    { id: 1, data: '10/03/2024', descricao: 'Descrição inicial', status: 'Em andamento' }
-  ]);
   const [relatorios] = useState<Relatorio[]>([
     { id: 1, nome: "Mar/2024", razao: "3/5", data: "01/03/2024" }
   ]);
@@ -41,7 +31,7 @@ export default function Home() {
         <h1 className="text-[30px] font-medium">Sentinel</h1>
       </div>
 
-      <OcorrenciasHomepage ocorrencias={ocorrencias} />
+      <OcorrenciasHomepage />
       <RelatoriosHomepage relatorios={relatorios} />
     </div>
   );
