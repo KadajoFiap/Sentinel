@@ -1,6 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 interface Relatorio {
     id: string;
@@ -10,43 +10,11 @@ interface Relatorio {
     ocorrencias: any[];
 }
 
-const RelatoriosHomepage: React.FC = () => {
-    const [relatorios, setRelatorios] = useState<Relatorio[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState('');
+interface RelatoriosHomepageProps {
+    relatorios: Relatorio[];
+}
 
-    useEffect(() => {
-        fetchRelatorios();
-    }, []);
-
-    const fetchRelatorios = async () => {
-        try {
-            const response = await fetch('/api/relatorio');
-            if (!response.ok) {
-                throw new Error('Erro ao carregar relatórios');
-            }
-            const data = await response.json();
-            console.log('Relatórios recebidos:', data);
-            
-            // Processar os dados antes de definir no estado
-            const processedData = data.map((relatorio: Relatorio) => ({
-                ...relatorio,
-                id: relatorio.id || `rel-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-                nome: relatorio.nome || 'Relatório sem nome',
-                data: relatorio.data && !isNaN(new Date(relatorio.data).getTime()) 
-                    ? relatorio.data 
-                    : new Date().toISOString()
-            }));
-            
-            setRelatorios(processedData);
-        } catch (err) {
-            setError('Erro ao carregar relatórios. Por favor, tente novamente.');
-            console.error('Erro ao carregar relatórios:', err);
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
+const RelatoriosHomepage: React.FC<RelatoriosHomepageProps> = ({ relatorios }) => {
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
         if (isNaN(date.getTime())) {
@@ -86,19 +54,7 @@ const RelatoriosHomepage: React.FC = () => {
                             </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
-                            {isLoading ? (
-                                <tr>
-                                    <td colSpan={4} className="px-6 py-4 text-center text-gray-500">
-                                        Carregando...
-                                    </td>
-                                </tr>
-                            ) : error ? (
-                                <tr>
-                                    <td colSpan={4} className="px-6 py-4 text-center text-red-500">
-                                        {error}
-                                    </td>
-                                </tr>
-                            ) : relatorios.length === 0 ? (
+                            {relatorios.length === 0 ? (
                                 <tr>
                                     <td colSpan={4} className="px-6 py-4 text-center text-gray-500">
                                         Nenhum relatório disponível
