@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 'use client';
 import { useState, useEffect } from 'react';
 import BotaoPadrao from '../../Botao/Botao';
