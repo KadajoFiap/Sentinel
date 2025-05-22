@@ -1,14 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Link from 'next/link';
 import React from 'react';
-
-interface Relatorio {
-    id: string;
-    nome: string;
-    razao: string;
-    data: string;
-    ocorrencias: any[];
-}
+import { Relatorio } from '@/app/types/relatorio';
 
 interface RelatoriosHomepageProps {
     relatorios: Relatorio[];

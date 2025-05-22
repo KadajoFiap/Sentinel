@@ -2,22 +2,14 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from './contexts/AuthContext';
-import RelatoriosHomepage from './components/Relatorios/RelatoriosHomepage';
+import { Relatorio } from '@/app/types/relatorio';
 import OcorrenciasHomepage from './components/Ocorrencias/OcorrenciasHomepage/OcorrenciasHomepage';
-
-interface Relatorio {
-  id: number;
-  nome: string;
-  razao: string;
-  data: string;
-}
+import RelatoriosHomepage from './components/Relatorios/RelatoriosHomepage';
 
 export default function Home() {
   const router = useRouter();
   const { isLoggedIn } = useAuth();
-  const [relatorios] = useState<Relatorio[]>([
-    { id: 1, nome: "Mar/2024", razao: "3/5", data: "01/03/2024" }
-  ]);
+  const relatorios: Relatorio[] = []; // Initialize with your data here
 
   useEffect(() => {
     if (!isLoggedIn) {
