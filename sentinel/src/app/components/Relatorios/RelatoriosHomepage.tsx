@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import Link from 'next/link';
 import React from 'react';
 import { Relatorio } from '@/app/types/relatorio';
