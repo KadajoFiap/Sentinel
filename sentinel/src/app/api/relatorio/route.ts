@@ -5,7 +5,7 @@ import { NextResponse } from 'next/server';
 export async function GET() {
     try {
         // Fetch all occurrences
-        const response = await fetch('http://localhost:8080/ocorrencia', {
+        const response = await fetch('https://java-sentinel-api-1.onrender.com/ocorrencia', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

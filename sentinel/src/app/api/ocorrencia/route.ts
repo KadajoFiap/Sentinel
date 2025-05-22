@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 export async function GET() {
     try {
         console.log('Iniciando chamada à API externa');
-        const response = await fetch('http://localhost:8080/ocorrencia', {
+        const response = await fetch('https://java-sentinel-api-1.onrender.com/ocorrencia', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -82,7 +82,7 @@ export async function POST(request: Request) {
         console.log('Converted body:', convertedBody);
         console.log('Stringified body:', JSON.stringify(convertedBody));
         
-        const response = await fetch('http://localhost:8080/ocorrencia', {
+        const response = await fetch('https://java-sentinel-api-1.onrender.com/ocorrencia', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -146,7 +146,7 @@ export async function PUT(request: Request) {
         
         console.log('Converted body for PUT:', convertedBody);
         
-        const response = await fetch(`http://localhost:8080/ocorrencia/${id}`, {
+        const response = await fetch(`https://java-sentinel-api-1.onrender.com/ocorrencia/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
