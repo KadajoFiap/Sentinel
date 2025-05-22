@@ -8,17 +8,19 @@ interface ViewRelatorioProps {
 }
 
 interface RelatorioData {
-    id: number;
+    id: string;
     nome: string;
     razao: string;
     data: string;
+    ocorrencias: any[];
 }
 
 interface OcorrenciaData {
-    id: number;
-    data: string;
-    descricao: string;
-    status: string;
+    ID_OCORRENCIA: string;
+    DATA_INICIO: string;
+    TIPO_OCORRENCIA: string;
+    STATUS_OCORRENCIA: string;
+    SEVERIDADE_OCORRENCIA: number;
 }
 
 const ViewRelatorio = ({ isOpen, onClose, relatorio, ocorrencias }: ViewRelatorioProps) => {
@@ -37,8 +39,8 @@ const ViewRelatorio = ({ isOpen, onClose, relatorio, ocorrencias }: ViewRelatori
                 </div>
 
                 <div className="mb-6">
-                    <p className="text-gray-600"><span className="font-semibold">ID:</span> {String(relatorio.id).padStart(3, '0')}</p>
-                    <p className="text-gray-600"><span className="font-semibold">Data:</span> {relatorio.data}</p>
+                    <p className="text-gray-600"><span className="font-semibold">ID:</span> {relatorio.id}</p>
+                    <p className="text-gray-600"><span className="font-semibold">Data:</span> {relatorio.data && !isNaN(new Date(relatorio.data).getTime()) ? new Date(relatorio.data).toLocaleDateString() : 'Data inválida'}</p>
                     <p className="text-gray-600"><span className="font-semibold">Razão de Conclusão:</span> {relatorio.razao}</p>
                 </div>
 
@@ -50,25 +52,34 @@ const ViewRelatorio = ({ isOpen, onClose, relatorio, ocorrencias }: ViewRelatori
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Data</th>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Descrição</th>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Severidade</th>
                             </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
-                            {ocorrencias.map((ocorrencia) => (
-                                <tr key={ocorrencia.id}>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        {String(ocorrencia.id).padStart(3, '0')}
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        {ocorrencia.data}
-                                    </td>
-                                    <td className="px-6 py-4 text-sm text-gray-500">
-                                        {ocorrencia.descricao}
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        {ocorrencia.status}
-                                    </td>
-                                </tr>
-                            ))}
+                            {ocorrencias
+                                .filter(ocorrencia => ocorrencia && typeof ocorrencia.ID_OCORRENCIA === 'string')
+                                .map((ocorrencia) => (
+                                    <tr key={ocorrencia.ID_OCORRENCIA}>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            {ocorrencia.ID_OCORRENCIA ? ocorrencia.ID_OCORRENCIA.slice(0, 8) : 'N/A'}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            {ocorrencia.DATA_INICIO && !isNaN(new Date(ocorrencia.DATA_INICIO).getTime())
+                                                ? new Date(ocorrencia.DATA_INICIO).toLocaleString()
+                                                : 'Data inválida'}
+                                        </td>
+                                        <td className="px-6 py-4 text-sm text-gray-500">
+                                            {ocorrencia.TIPO_OCORRENCIA}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            {ocorrencia.STATUS_OCORRENCIA}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            {ocorrencia.SEVERIDADE_OCORRENCIA === 1 ? 'Baixa' : 
+                                             ocorrencia.SEVERIDADE_OCORRENCIA === 2 ? 'Média' : 'Alta'}
+                                        </td>
+                                    </tr>
+                                ))}
                         </tbody>
                     </table>
                 </div>

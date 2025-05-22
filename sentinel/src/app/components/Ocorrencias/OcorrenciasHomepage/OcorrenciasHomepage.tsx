@@ -2,14 +2,15 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
 interface Ocorrencia {
-    ID_OCORRENCIA: string;
-    DATA_INICIO: string;
-    DATA_FIM: string | null;
-    TIPO_OCORRENCIA: string;
-    SEVERIDADE_OCORRENCIA: number;
-    FK_CCO_ID_CCO: number;
-    FK_ESTACAO_ID_ESTACAO: number;
-    STATUS_OCORRENCIA: string;
+    id: number;
+    dataInicio: string;
+    dataFim: string | null;
+    tipoOcorrencia: string;
+    descricaoOcorrencia: string | null;
+    severidadeOcorrencia: number;
+    cco: { id: number };
+    estacao: { id: number };
+    statusOcorrencia: string;
 }
 
 const OcorrenciasHomepage: React.FC = () => {
@@ -28,6 +29,7 @@ const OcorrenciasHomepage: React.FC = () => {
                 throw new Error('Erro ao carregar ocorrências');
             }
             const data = await response.json();
+            console.log('Dados recebidos:', data);
             setOcorrencias(data);
         } catch (err) {
             setError('Erro ao carregar ocorrências. Por favor, tente novamente.');
@@ -36,14 +38,6 @@ const OcorrenciasHomepage: React.FC = () => {
             setIsLoading(false);
         }
     };
-
-    if (isLoading) {
-        return <div className="flex justify-center items-center min-h-[280px]">Carregando...</div>;
-    }
-
-    if (error) {
-        return <div className="text-red-500 text-center p-4">{error}</div>;
-    }
 
     return (
         <div className="bg-white rounded-lg shadow-md min-h-[280px] max-h-[280px] lg:min-h-[310px] lg:max-h-[310px] md:min-h-[410px] md:max-h-[410px] flex flex-col mb-8">
@@ -72,20 +66,42 @@ const OcorrenciasHomepage: React.FC = () => {
                             </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
-                            {ocorrencias.slice(0, 5).map((ocorrencia) => (
-                                <tr key={ocorrencia.ID_OCORRENCIA} className="hover:bg-gray-50">
-                                    <td className="py-4 text-sm font-medium text-gray-900 whitespace-nowrap">{ocorrencia.ID_OCORRENCIA.slice(0, 8)}</td>
-                                    <td className="py-4 text-sm text-gray-500 whitespace-nowrap">{new Date(ocorrencia.DATA_INICIO).toLocaleString()}</td>
-                                    <td className="py-4 text-sm text-gray-900">{ocorrencia.TIPO_OCORRENCIA}</td>
-                                    <td className="py-4 text-sm text-gray-500 whitespace-nowrap">{ocorrencia.STATUS_OCORRENCIA}</td>
+                            {isLoading ? (
+                                <tr>
+                                    <td colSpan={4} className="px-6 py-4 text-center text-gray-500">
+                                        Carregando...
+                                    </td>
                                 </tr>
-                            ))}
-                            {ocorrencias.length === 0 && (
+                            ) : error ? (
+                                <tr>
+                                    <td colSpan={4} className="px-6 py-4 text-center text-red-500">
+                                        {error}
+                                    </td>
+                                </tr>
+                            ) : ocorrencias.length === 0 ? (
                                 <tr>
                                     <td colSpan={4} className="px-6 py-4 text-center text-gray-500">
                                         Nenhuma ocorrência registrada
                                     </td>
                                 </tr>
+                            ) : (
+                                ocorrencias
+                                    .filter(oc => oc && oc.id > 0)
+                                    .slice(0, 5)
+                                    .map((ocorrencia) => (
+                                        <tr key={ocorrencia.id} className="hover:bg-gray-50">
+                                            <td className="py-4 text-sm font-medium text-gray-900 whitespace-nowrap">{ocorrencia.id}</td>
+                                            <td className="py-4 text-sm text-gray-500 whitespace-nowrap">
+                                                {new Date(ocorrencia.dataInicio).toLocaleString()}
+                                            </td>
+                                            <td className="py-4 text-sm text-gray-900">
+                                                {ocorrencia.tipoOcorrencia}
+                                            </td>
+                                            <td className="py-4 text-sm text-gray-500 whitespace-nowrap">
+                                                {ocorrencia.statusOcorrencia}
+                                            </td>
+                                        </tr>
+                                    ))
                             )}
                         </tbody>
                     </table>

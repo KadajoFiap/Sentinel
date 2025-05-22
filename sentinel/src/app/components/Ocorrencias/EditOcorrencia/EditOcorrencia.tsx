@@ -1,29 +1,36 @@
 'use client';
 import { useState, useEffect } from 'react';
 
-interface OcorrenciaModalProps {
+interface Ocorrencia {
+    id: number;
+    dataInicio: string;
+    dataFim: string | null;
+    tipoOcorrencia: string;
+    descricaoOcorrencia: string | null;
+    severidadeOcorrencia: number;
+    cco: { id: number };
+    estacao: { id: number };
+    statusOcorrencia: string;
+}
+
+interface EditOcorrenciaProps {
     isOpen: boolean;
     onClose: () => void;
-    onEdit: (ocorrencia: OcorrenciaData) => void;
-    ocorrencia: OcorrenciaData;
+    onEdit: () => void;
+    ocorrencia: Ocorrencia;
 }
 
-interface OcorrenciaData {
-    ID_OCORRENCIA: string;
-    DATA_INICIO: string;
-    DATA_FIM: string | null;
-    TIPO_OCORRENCIA: string;
-    SEVERIDADE_OCORRENCIA: number;
-    FK_CCO_ID_CCO: number;
-    FK_ESTACAO_ID_ESTACAO: number;
-    STATUS_OCORRENCIA: string;
-}
-
-const EditOcorrencia = ({ isOpen, onClose, onEdit, ocorrencia }: OcorrenciaModalProps) => {
-    const [formData, setFormData] = useState({
-        TIPO_OCORRENCIA: '',
-        STATUS_OCORRENCIA: 'Em andamento',
-        SEVERIDADE_OCORRENCIA: 1
+const EditOcorrencia = ({ isOpen, onClose, onEdit, ocorrencia }: EditOcorrenciaProps) => {
+    const [formData, setFormData] = useState<Ocorrencia>({
+        id: 0,
+        dataInicio: '',
+        dataFim: null,
+        tipoOcorrencia: '',
+        descricaoOcorrencia: null,
+        severidadeOcorrencia: 1,
+        cco: { id: 1 },
+        estacao: { id: 1 },
+        statusOcorrencia: 'ABERTO'
     });
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -31,9 +38,9 @@ const EditOcorrencia = ({ isOpen, onClose, onEdit, ocorrencia }: OcorrenciaModal
     useEffect(() => {
         if (ocorrencia) {
             setFormData({
-                TIPO_OCORRENCIA: ocorrencia.TIPO_OCORRENCIA,
-                STATUS_OCORRENCIA: ocorrencia.STATUS_OCORRENCIA,
-                SEVERIDADE_OCORRENCIA: ocorrencia.SEVERIDADE_OCORRENCIA
+                ...ocorrencia,
+                dataInicio: ocorrencia.dataInicio ? new Date(ocorrencia.dataInicio).toISOString().slice(0, 16) : '',
+                dataFim: ocorrencia.dataFim ? new Date(ocorrencia.dataFim).toISOString().slice(0, 16) : null
             });
         }
     }, [ocorrencia]);
@@ -43,41 +50,36 @@ const EditOcorrencia = ({ isOpen, onClose, onEdit, ocorrencia }: OcorrenciaModal
         setIsLoading(true);
         setError('');
 
-        if (!formData.TIPO_OCORRENCIA.trim()) {
-            setError('Por favor, preencha a descrição');
-            setIsLoading(false);
-            return;
-        }
-
         try {
-            const ocorrenciaAtualizada: OcorrenciaData = {
-                ...ocorrencia,
-                TIPO_OCORRENCIA: formData.TIPO_OCORRENCIA,
-                STATUS_OCORRENCIA: formData.STATUS_OCORRENCIA,
-                SEVERIDADE_OCORRENCIA: formData.SEVERIDADE_OCORRENCIA
+            const dataToSend = {
+                ...formData,
+                dataInicio: new Date(formData.dataInicio).toISOString(),
+                dataFim: formData.dataFim ? new Date(formData.dataFim).toISOString() : null,
+                statusOcorrencia: formData.statusOcorrencia.toUpperCase()
             };
-
-            const response = await fetch('/api/ocorrencia', {
+            
+            console.log('Enviando dados para atualização:', dataToSend);
+            
+            const response = await fetch(`/api/ocorrencia`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    id: ocorrencia.ID_OCORRENCIA,
-                    ...ocorrenciaAtualizada
-                }),
+                body: JSON.stringify(dataToSend),
             });
 
+            const responseData = await response.json();
+            console.log('Resposta da API:', responseData);
+
             if (!response.ok) {
-                throw new Error('Erro ao atualizar ocorrência');
+                const errorMessage = responseData.details?.message || responseData.message || 'Erro ao atualizar ocorrência';
+                throw new Error(errorMessage);
             }
 
-            const data = await response.json();
-            onEdit(data);
-            setError('');
+            onEdit();
             onClose();
         } catch (err) {
-            console.error('Erro ao atualizar:', err);
+            console.error('Erro detalhado:', err);
             setError(err instanceof Error ? err.message : 'Erro ao atualizar ocorrência. Por favor, tente novamente.');
         } finally {
             setIsLoading(false);
@@ -94,14 +96,72 @@ const EditOcorrencia = ({ isOpen, onClose, onEdit, ocorrencia }: OcorrenciaModal
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Descrição
+                            Tipo de Ocorrência
                         </label>
-                        <textarea
+                        <select
                             className="w-full p-2 border rounded-md"
-                            value={formData.TIPO_OCORRENCIA}
-                            onChange={(e) => setFormData({ ...formData, TIPO_OCORRENCIA: e.target.value })}
-                            rows={4}
+                            value={formData.tipoOcorrencia}
+                            onChange={(e) =>
+                                setFormData({ ...formData, tipoOcorrencia: e.target.value })
+                            }
+                            required
+                        >
+                            <option value="">Selecione um tipo</option>
+                            <option value="ACIDENTE">Acidente</option>
+                            <option value="AVARIA">Avaria</option>
+                            <option value="FALHA_TECNICA">Falha Técnica</option>
+                            <option value="INCIDENTE">Incidente</option>
+                            <option value="MANUTENCAO">Manutenção</option>
+                            <option value="OUTROS">Outros</option>
+                        </select>
+                    </div>
+
+                    <div className="mb-4">
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Descrição da Ocorrência
+                        </label>
+                        <input
+                            type="text"
+                            className="w-full p-2 border rounded-md"
+                            value={formData.descricaoOcorrencia || ''}
+                            onChange={(e) =>
+                                setFormData({ ...formData, descricaoOcorrencia: e.target.value })
+                            }
+                            required
                         />
+                    </div>
+
+                    <div className="mb-4">
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Data e Hora
+                        </label>
+                        <input
+                            type="datetime-local"
+                            className="w-full p-2 border rounded-md"
+                            value={formData.dataInicio}
+                            onChange={(e) =>
+                                setFormData({ ...formData, dataInicio: e.target.value })
+                            }
+                            required
+                        />
+                    </div>
+
+                    <div className="mb-4">
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Severidade
+                        </label>
+                        <select
+                            className="w-full p-2 border rounded-md"
+                            value={formData.severidadeOcorrencia}
+                            onChange={(e) =>
+                                setFormData({ ...formData, severidadeOcorrencia: Number(e.target.value) })
+                            }
+                            required
+                        >
+                            <option value={1}>Baixa</option>
+                            <option value={2}>Média</option>
+                            <option value={3}>Alta</option>
+                        </select>
                     </div>
 
                     <div className="mb-4">
@@ -110,44 +170,35 @@ const EditOcorrencia = ({ isOpen, onClose, onEdit, ocorrencia }: OcorrenciaModal
                         </label>
                         <select
                             className="w-full p-2 border rounded-md"
-                            value={formData.STATUS_OCORRENCIA}
-                            onChange={(e) => setFormData({ ...formData, STATUS_OCORRENCIA: e.target.value })}
+                            value={formData.statusOcorrencia}
+                            onChange={(e) =>
+                                setFormData({ ...formData, statusOcorrencia: e.target.value })
+                            }
                         >
-                            <option value="Em andamento">Em andamento</option>
-                            <option value="Concluído">Concluído</option>
-                            <option value="Pendente">Pendente</option>
+                            <option value="ABERTO">Aberto</option>
+                            <option value="EM_ANDAMENTO">Em andamento</option>
+                            <option value="CONCLUIDO">Concluído</option>
                         </select>
                     </div>
 
-                    <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Grau da Ocorrência
-                        </label>
-                        <select
-                            className="w-full p-2 border rounded-md"
-                            value={formData.SEVERIDADE_OCORRENCIA}
-                            onChange={(e) => setFormData({ ...formData, SEVERIDADE_OCORRENCIA: Number(e.target.value) })}
-                        >
-                            <option value={1}>Baixo</option>
-                            <option value={2}>Médio</option>
-                            <option value={3}>Alto</option>
-                        </select>
-                    </div>
-
-                    {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+                    {error && (
+                        <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+                            {error}
+                        </div>
+                    )}
 
                     <div className="flex justify-end gap-2">
                         <button
                             type="button"
                             onClick={onClose}
-                            className="cursor-pointer px-4 py-2 text-gray-600 hover:text-gray-800"
+                            className="px-4 py-2 text-gray-600 hover:text-gray-800 cursor-pointer"
                             disabled={isLoading}
                         >
                             Cancelar
                         </button>
                         <button
                             type="submit"
-                            className="cursor-pointer px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:bg-blue-300"
+                            className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:bg-blue-300 cursor-pointer"
                             disabled={isLoading}
                         >
                             {isLoading ? 'Salvando...' : 'Salvar'}
