@@ -93,7 +93,7 @@ Utilize prefixos nos commits para melhor organização:
 ## 🔐 Credenciais de Acesso
 Para acessar o sistema, utilize as seguintes credenciais:
 - Username: kauesamartino
-- Password: 123456
+- Password: 123456Kk!
 
 ## 🔒 Autenticação
 O sistema utiliza AWS Cognito para autenticação, com os seguintes endpoints:
@@ -107,6 +107,8 @@ Para questões e sugestões, por favor abra uma issue no repositório.
 
 ## 📄 Licença
 Este projeto está sob a licença [MIT License](https://github.com/KadajoFiap/Sentinel/blob/main/LICENSE)
+
+## Link vídeo YouTube - 
 
 ---
 Desenvolvido pela Equipe TRNT
