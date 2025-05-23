@@ -1,79 +1,87 @@
 'use client';
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { authService, LoginData, RegisterData, ConfirmData } from '../services/authService';
 
 interface AuthContextType {
-  isLoggedIn: boolean;
-  userEmail: string;
-  login: () => void;
-  logout: () => void;
+    isLoggedIn: boolean;
+    userEmail: string;
+    login: (data: LoginData) => Promise<void>;
+    register: (data: RegisterData) => Promise<void>;
+    confirm: (data: ConfirmData) => Promise<void>;
+    logout: () => Promise<void>;
+    error: string | null;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userEmail, setUserEmail] = useState('');
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [userEmail, setUserEmail] = useState('');
+    const [error, setError] = useState<string | null>(null);
 
-  const checkLoginStatus = () => {
-    const loginStatus = localStorage.getItem('isLoggedIn');
-    setIsLoggedIn(!!loginStatus);
-    setUserEmail(loginStatus ? 'admin@admin.com' : '');
-  };
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        setIsLoggedIn(!!token);
+        // Se houver um token, você pode decodificá-lo para obter o email do usuário
+        // Por enquanto, vamos usar um valor padrão
+        setUserEmail(token ? 'usuario@exemplo.com' : '');
+    }, []);
 
-  useEffect(() => {
-    checkLoginStatus();
-
-    // Listen for storage events from other tabs/windows
-    const handleStorageChange = (event: StorageEvent) => {
-      if (event.key === 'isLoggedIn') {
-        checkLoginStatus();
-      }
+    const login = async (data: LoginData) => {
+        try {
+            setError(null);
+            const result = await authService.login(data);
+            setIsLoggedIn(true);
+            setUserEmail(data.username); // Usando o username como email temporariamente
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Erro ao fazer login');
+            throw err;
+        }
     };
 
-    window.addEventListener('storage', handleStorageChange);
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-    };
-  }, []);
-
-  const login = () => {
-    localStorage.setItem('isLoggedIn', 'true');
-    setIsLoggedIn(true);
-    setUserEmail('admin@admin.com');
-  };
-
-  const logout = () => {
-    localStorage.removeItem('isLoggedIn');
-    setIsLoggedIn(false);
-    setUserEmail('');
-    // Dispatch a custom event to ensure all components update
-    window.dispatchEvent(new Event('auth-logout'));
-  };
-
-  // Listen for the custom logout event
-  useEffect(() => {
-    const handleLogout = () => {
-      setIsLoggedIn(false);
-      setUserEmail('');
+    const register = async (data: RegisterData) => {
+        try {
+            setError(null);
+            await authService.register(data);
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Erro ao registrar usuário');
+            throw err;
+        }
     };
 
-    window.addEventListener('auth-logout', handleLogout);
-    return () => {
-      window.removeEventListener('auth-logout', handleLogout);
+    const confirm = async (data: ConfirmData) => {
+        try {
+            setError(null);
+            await authService.confirm(data);
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Erro ao confirmar registro');
+            throw err;
+        }
     };
-  }, []);
 
-  return (
-    <AuthContext.Provider value={{ isLoggedIn, userEmail, login, logout }}>
-      {children}
-    </AuthContext.Provider>
-  );
+    const logout = async () => {
+        try {
+            setError(null);
+            await authService.logout();
+            setIsLoggedIn(false);
+            setUserEmail('');
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Erro ao fazer logout');
+            throw err;
+        }
+    };
+
+    return (
+        <AuthContext.Provider value={{ isLoggedIn, userEmail, login, register, confirm, logout, error }}>
+            {children}
+        </AuthContext.Provider>
+    );
 }
 
 export function useAuth() {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
+    const context = useContext(AuthContext);
+    if (context === undefined) {
+        throw new Error('useAuth must be used within an AuthProvider');
+    }
+    return context;
 } 

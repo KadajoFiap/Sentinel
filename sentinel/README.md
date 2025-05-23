@@ -1,7 +1,7 @@
 # 🛡️ Projeto Sentinel
 
 ## 📋 Sobre
-O Sentinel é um sistema de monitoramento e gestão desenvolvido para a CCR, focado em otimizar operações e garantir a segurança nas rodovias.
+O Sentinel é um sistema de monitoramento e gestão desenvolvido para a CCR, focado em otimizar operações e garantir a segurança nas rodovias. Esta é a versão final do projeto, contendo todas as funcionalidades planejadas para a primeira fase de desenvolvimento.
 
 ## 🛠️ Tecnologias Utilizadas
 - Next.js 14 (App Router)
@@ -33,31 +33,24 @@ npm install
 npm run dev
 ```
 
-## 🗺️ Roadmap
+## 🗺️ Funcionalidades Implementadas
 
-### Fase 1 - Estrutura Base ✅
+### Sistema Base ✅
 - [x] Configuração inicial do Next.js
 - [x] Implementação do Tailwind CSS
 - [x] Estruturação do projeto
 - [x] Configuração do TypeScript
 
-### Fase 2 - Componentes Core ⏳
+### Componentes Principais ✅
 - [x] Componente de Caixa de Entrada
 - [x] Sistema de Notificações
-- [ ] Dashboard Principal
-- [ ] Sistema de Autenticação
+- [x] Sistema de Autenticação
+- [x] Interface Responsiva
 
-### Fase 3 - Funcionalidades Principais 🔜
-- [ ] Integração com APIs
-- [ ] Sistema de Monitoramento em Tempo Real
-- [ ] Gestão de Ocorrências
-- [ ] Relatórios e Analytics
-
-### Fase 4 - Otimizações e Melhorias 📈
-- [ ] Performance e Otimizações
-- [ ] Testes Automatizados
-- [ ] Documentação Completa
-- [ ] Deploy em Produção
+### Segurança e Acesso ✅
+- [x] Sistema de Login
+- [x] Proteção de Rotas
+- [x] Gerenciamento de Estado de Autenticação
 
 ## 🔧 Configuração de Desenvolvimento
 
@@ -94,6 +87,11 @@ Utilize prefixos nos commits para melhor organização:
 - Atualize a documentação quando necessário
 - Siga as práticas de segurança recomendadas
 
+## 🔐 Credenciais de Acesso
+Para acessar o sistema, utilize as seguintes credenciais:
+- Email: admin@admin.com
+- Senha: 123456
+
 ## 📫 Contato
 Para questões e sugestões, por favor abra uma issue no repositório.
 
@@ -101,4 +99,4 @@ Para questões e sugestões, por favor abra uma issue no repositório.
 Este projeto está sob a licença [MIT License](https://github.com/KadajoFiap/Sentinel/blob/main/LICENSE)
 
 ---
-Desenvolvido com ❤️ pela Equipe TRNT
+Desenvolvido pela Equipe TRNT

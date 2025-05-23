@@ -18,6 +18,12 @@ const CompPerfil = ({ email }: PerfilProps) => {
         router.push('/Login');
     };
 
+    // Função para obter a inicial do email ou um caractere padrão
+    const getInitial = () => {
+        if (!email) return 'U';
+        return email.charAt(0).toUpperCase();
+    };
+
     return (
         <div className="relative">
             <button
@@ -25,9 +31,9 @@ const CompPerfil = ({ email }: PerfilProps) => {
                 className="cursor-pointer flex items-center space-x-2 text-gray-700 hover:text-gray-900"
             >
                 <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white">
-                    {email.charAt(0).toUpperCase()}
+                    {getInitial()}
                 </div>
-                <span className="hidden md:block">{email}</span>
+                <span className="hidden md:block">{email || 'Usuário'}</span>
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
@@ -36,7 +42,7 @@ const CompPerfil = ({ email }: PerfilProps) => {
             {isOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
                     <div className="px-4 py-2 text-sm text-gray-700 border-b">
-                        Logado como:<br/>{email}
+                        Logado como:<br/>{email || 'Usuário'}
                     </div>
                     <button
                         onClick={handleLogout}
