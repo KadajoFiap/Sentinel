@@ -9,6 +9,7 @@ O Sentinel é um sistema de monitoramento e gestão desenvolvido para a CCR, foc
 - Tailwind CSS
 - React
 - Node.js
+- AWS Cognito (Autenticação)
 
 ## 🚀 Começando
 
@@ -48,7 +49,9 @@ npm run dev
 - [x] Interface Responsiva
 
 ### Segurança e Acesso ✅
-- [x] Sistema de Login
+- [x] Sistema de Login com AWS Cognito
+- [x] Registro de Usuários
+- [x] Confirmação de Email
 - [x] Proteção de Rotas
 - [x] Gerenciamento de Estado de Autenticação
 
@@ -89,8 +92,15 @@ Utilize prefixos nos commits para melhor organização:
 
 ## 🔐 Credenciais de Acesso
 Para acessar o sistema, utilize as seguintes credenciais:
-- Email: admin@admin.com
-- Senha: 123456
+- Username: kauesamartino
+- Password: 123456
+
+## 🔒 Autenticação
+O sistema utiliza AWS Cognito para autenticação, com os seguintes endpoints:
+- Registro: `https://7njq158dja.execute-api.sa-east-1.amazonaws.com/register`
+- Confirmação: `https://7njq158dja.execute-api.sa-east-1.amazonaws.com/confirm`
+- Login: `https://7njq158dja.execute-api.sa-east-1.amazonaws.com/login`
+- Logout: `https://7njq158dja.execute-api.sa-east-1.amazonaws.com/logout`
 
 ## 📫 Contato
 Para questões e sugestões, por favor abra uma issue no repositório.
