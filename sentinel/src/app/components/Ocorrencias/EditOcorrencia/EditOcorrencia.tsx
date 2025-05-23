@@ -59,7 +59,7 @@ const EditOcorrencia = ({ isOpen, onClose, onEdit, ocorrencia }: EditOcorrenciaP
             };
             
             console.log('Enviando dados para atualização:', dataToSend);
-            
+
             const response = await fetch(`/api/ocorrencia`, {
                 method: 'PUT',
                 headers: {

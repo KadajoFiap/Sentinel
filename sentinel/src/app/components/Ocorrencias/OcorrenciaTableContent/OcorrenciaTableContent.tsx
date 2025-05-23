@@ -76,7 +76,7 @@ const OcorrenciaTableContent = ({ onEditClick }: OcorrenciaTableContentProps) =>
             
             if (Array.isArray(data)) {
                 const ocorrenciasValidas = data
-                    .map(convertApiResponse)
+                  .map(convertApiResponse)
                     .filter(oc => oc && oc.id > 0);
                 console.log('Ocorrências convertidas:', ocorrenciasValidas);
                 setOcorrencias(ocorrenciasValidas);

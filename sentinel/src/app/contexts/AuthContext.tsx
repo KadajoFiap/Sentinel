@@ -3,8 +3,8 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
 import { authService, LoginData, RegisterData, ConfirmData } from '../services/authService';
 
 interface AuthContextType {
-    isLoggedIn: boolean;
-    userEmail: string;
+  isLoggedIn: boolean;
+  userEmail: string;
     login: (data: LoginData) => Promise<void>;
     register: (data: RegisterData) => Promise<void>;
     confirm: (data: ConfirmData) => Promise<void>;
@@ -15,11 +15,11 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [userEmail, setUserEmail] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userEmail, setUserEmail] = useState('');
     const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
+  useEffect(() => {
         const token = localStorage.getItem('token');
         setIsLoggedIn(!!token);
         // Se houver um token, você pode decodificá-lo para obter o email do usuário
@@ -57,31 +57,31 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             setError(err instanceof Error ? err.message : 'Erro ao confirmar registro');
             throw err;
         }
-    };
+  };
 
     const logout = async () => {
         try {
             setError(null);
             await authService.logout();
-            setIsLoggedIn(false);
-            setUserEmail('');
+    setIsLoggedIn(false);
+    setUserEmail('');
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Erro ao fazer logout');
             throw err;
         }
     };
 
-    return (
+  return (
         <AuthContext.Provider value={{ isLoggedIn, userEmail, login, register, confirm, logout, error }}>
-            {children}
-        </AuthContext.Provider>
-    );
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
 export function useAuth() {
-    const context = useContext(AuthContext);
-    if (context === undefined) {
-        throw new Error('useAuth must be used within an AuthProvider');
-    }
-    return context;
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
 } 
