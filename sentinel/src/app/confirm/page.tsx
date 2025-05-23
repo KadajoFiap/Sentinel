@@ -17,7 +17,7 @@ export default function Confirm() {
         
         try {
             await confirm({ username, code });
-            router.push('/login');
+            router.push('/');
         } catch (err) {
             // O erro já está sendo tratado no AuthContext
             console.error('Erro na confirmação:', err);

@@ -32,7 +32,7 @@ export default function RegisterForm() {
 
         try {
             await register({ username, email, password });
-            router.push('/');
+            router.push('/confirm');
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Erro ao registrar');
         }
