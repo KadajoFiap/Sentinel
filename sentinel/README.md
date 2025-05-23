@@ -110,5 +110,7 @@ Este projeto está sob a licença [MIT License](https://github.com/KadajoFiap/Se
 
 ## Link vídeo YouTube - 
 
+## Link site vercel - https://sentinel-git-main-kadajofiaps-projects.vercel.app/
+
 ---
 Desenvolvido pela Equipe TRNT
