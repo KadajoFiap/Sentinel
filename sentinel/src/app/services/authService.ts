@@ -16,8 +16,14 @@ export interface LoginData {
     password: string;
 }
 
-const handleAuthError = (error: any): string => {
-    if (error.message) {
+interface ApiError {
+    message: string;
+    status?: number;
+}
+
+const handleAuthError = (error: unknown): string => {
+    if (error && typeof error === 'object' && 'message' in error) {
+        const apiError = error as ApiError;
         // Mapeamento de mensagens de erro comuns
         const errorMessages: { [key: string]: string } = {
             'User already exists': 'Este usuário já está cadastrado',
@@ -38,24 +44,27 @@ const handleAuthError = (error: any): string => {
 
         // Verifica se existe uma mensagem personalizada para o erro
         for (const [key, value] of Object.entries(errorMessages)) {
-            if (error.message.includes(key)) {
+            if (apiError.message.includes(key)) {
                 return value;
             }
         }
     }
 
     // Mensagens padrão para erros não mapeados
-    if (error.status === 401) {
-        return 'Sessão expirada. Por favor, faça login novamente';
-    }
-    if (error.status === 403) {
-        return 'Acesso negado. Verifique suas credenciais';
-    }
-    if (error.status === 404) {
-        return 'Serviço não encontrado. Por favor, tente novamente mais tarde';
-    }
-    if (error.status === 500) {
-        return 'Erro interno do servidor. Por favor, tente novamente mais tarde';
+    if (error && typeof error === 'object' && 'status' in error) {
+        const apiError = error as ApiError;
+        if (apiError.status === 401) {
+            return 'Sessão expirada. Por favor, faça login novamente';
+        }
+        if (apiError.status === 403) {
+            return 'Acesso negado. Verifique suas credenciais';
+        }
+        if (apiError.status === 404) {
+            return 'Serviço não encontrado. Por favor, tente novamente mais tarde';
+        }
+        if (apiError.status === 500) {
+            return 'Erro interno do servidor. Por favor, tente novamente mais tarde';
+        }
     }
 
     return 'Ocorreu um erro. Por favor, tente novamente';
