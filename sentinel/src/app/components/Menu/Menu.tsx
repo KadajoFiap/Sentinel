@@ -18,13 +18,13 @@ export default function Menu(): React.ReactElement {
 
     const rotas = [{
         label: 'Ocorrências',
-        to: '/ocorrencias'
+        to: '/Ocorrencias'
     }, {
         label: 'Relatórios',
-        to: '/relatorios'
+        to: '/Relatorios'
     }, {
         label: 'Integrantes',
-        to: '/integrantes'
+        to: '/Integrantes'
     }, {
         label: 'GitHub',
         to: 'https://github.com/KadajoFiap/Sentinel',
