@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 'use client';
 import { useState, useEffect } from 'react';
@@ -17,13 +17,37 @@ interface RelatorioTableContentProps {
     onDownloadClick: (relatorio: Relatorio) => void;
 }
 
+interface Stats {
+    abertas: number;
+    andamento: number;
+    resolvidas: number;
+}
+
+const fetchOcorrenciaStats = async (start: string, end: string): Promise<Stats> => {
+    const res = await fetch(
+        `https://gkr7t959w0.execute-api.sa-east-1.amazonaws.com/ocorrencia/stats?start=${start}&end=${end}`,
+        { headers: { 'Content-Type': 'application/json' } }
+    );
+    if (!res.ok) throw new Error('Erro ao buscar estatísticas');
+    return res.json();
+};
+
 const RelatorioTableContent = ({ onViewClick, onDownloadClick }: RelatorioTableContentProps) => {
     const [relatorios, setRelatorios] = useState<Relatorio[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
+    const [stats, setStats] = useState<Stats | null>(null);
 
     useEffect(() => {
         fetchRelatorios();
+        // Definir datas para junho de 2025
+        const start = new Date('2025-06-01T00:00:00');
+        const end = new Date('2025-06-30T23:59:59');
+        const startStr = start.toISOString().slice(0, 10);
+        const endStr = end.toISOString().slice(0, 10);
+        fetchOcorrenciaStats(startStr, endStr)
+            .then(setStats)
+            .catch(() => setStats(null));
     }, []);
 
     const fetchRelatorios = async () => {
@@ -116,6 +140,14 @@ const RelatorioTableContent = ({ onViewClick, onDownloadClick }: RelatorioTableC
 
     return (
         <div className="flex-1 overflow-auto">
+            {/* Estatísticas de ocorrências */}
+            {stats && (
+                <div className="flex gap-8 p-4 bg-gray-50 rounded-md mb-4">
+                    <div className="text-sm text-gray-700">Abertas: <span className="font-bold">{stats.abertas}</span></div>
+                    <div className="text-sm text-gray-700">Em andamento: <span className="font-bold">{stats.andamento}</span></div>
+                    <div className="text-sm text-gray-700">Resolvidas: <span className="font-bold">{stats.resolvidas}</span></div>
+                </div>
+            )}
             <table className="min-w-full table-fixed">
                 <thead className="bg-gray-100 sticky top-0">
                     <tr>

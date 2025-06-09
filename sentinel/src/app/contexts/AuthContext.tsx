@@ -6,11 +6,11 @@ import { useRouter } from 'next/navigation';
 interface AuthContextType {
   isLoggedIn: boolean;
   userEmail: string;
-  login: (data: LoginData) => Promise<void>;
-  register: (data: RegisterData) => Promise<void>;
-  confirm: (data: ConfirmData) => Promise<void>;
-  logout: () => Promise<void>;
-  error: string | null;
+    login: (data: LoginData) => Promise<void>;
+    register: (data: RegisterData) => Promise<void>;
+    confirm: (data: ConfirmData) => Promise<void>;
+    logout: () => Promise<void>;
+    error: string | null;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -18,7 +18,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userEmail, setUserEmail] = useState('');
-  const [error, setError] = useState<string | null>(null);
+    const [error, setError] = useState<string | null>(null);
   const [isInitialized, setIsInitialized] = useState(false);
   const router = useRouter();
 
@@ -40,7 +40,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
 
     initializeAuth();
-  }, []);
+    }, []);
 
   // Proteger rotas que requerem autenticação
   useEffect(() => {
@@ -56,54 +56,54 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, [isLoggedIn, isInitialized, router]);
 
-  const login = async (data: LoginData) => {
-    try {
-      setError(null);
-      await authService.login(data);
-      setIsLoggedIn(true);
+    const login = async (data: LoginData) => {
+        try {
+            setError(null);
+            await authService.login(data);
+            setIsLoggedIn(true);
       setUserEmail(data.username);
       localStorage.setItem('userEmail', data.username);
       router.push('/');
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Erro ao fazer login');
-      throw err;
-    }
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Erro ao fazer login');
+            throw err;
+        }
+    };
+
+    const register = async (data: RegisterData) => {
+        try {
+            setError(null);
+            await authService.register(data);
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Erro ao registrar usuário');
+            throw err;
+        }
+    };
+
+    const confirm = async (data: ConfirmData) => {
+        try {
+            setError(null);
+            await authService.confirm(data);
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Erro ao confirmar registro');
+            throw err;
+        }
   };
 
-  const register = async (data: RegisterData) => {
-    try {
-      setError(null);
-      await authService.register(data);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Erro ao registrar usuário');
-      throw err;
-    }
-  };
-
-  const confirm = async (data: ConfirmData) => {
-    try {
-      setError(null);
-      await authService.confirm(data);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Erro ao confirmar registro');
-      throw err;
-    }
-  };
-
-  const logout = async () => {
-    try {
-      setError(null);
-      await authService.logout();
-      setIsLoggedIn(false);
-      setUserEmail('');
+    const logout = async () => {
+        try {
+            setError(null);
+            await authService.logout();
+    setIsLoggedIn(false);
+    setUserEmail('');
       localStorage.removeItem('token');
       localStorage.removeItem('userEmail');
       router.push('/Login');
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Erro ao fazer logout');
-      throw err;
-    }
-  };
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Erro ao fazer logout');
+            throw err;
+        }
+    };
 
   // Não renderizar nada até a inicialização estar completa
   if (!isInitialized) {
@@ -111,7 +111,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, userEmail, login, register, confirm, logout, error }}>
+        <AuthContext.Provider value={{ isLoggedIn, userEmail, login, register, confirm, logout, error }}>
       {children}
     </AuthContext.Provider>
   );

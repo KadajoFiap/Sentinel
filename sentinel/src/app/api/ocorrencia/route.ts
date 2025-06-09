@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 export async function GET() {
     try {
         console.log('Iniciando chamada à API externa');
-        const response = await fetch('https://a3h5lirec7.execute-api.sa-east-1.amazonaws.com/ocorrencia', {
+        const response = await fetch('https://gkr7t959w0.execute-api.sa-east-1.amazonaws.com/ocorrencia', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -35,72 +35,44 @@ export async function POST(request: Request) {
         const body = await request.json();
         console.log('Request body received:', body);
         
-        // Garantindo que tipo_ocorrencia não seja undefined ou vazio
-        const tipoOcorrencia = body.tipo_ocorrencia;
-        console.log('Tipo de ocorrência recebido:', tipoOcorrencia);
-        
-        if (!tipoOcorrencia || tipoOcorrencia.trim() === '') {
-            console.error('tipo_ocorrencia está vazio ou undefined');
+        // Validar campos obrigatórios
+        if (!body.tipo_ocorrencia || !body.data_inicio || !body.severidade_ocorrencia || !body.id_estacao || !body.id_cco || !body.status_ocorrencia) {
             return NextResponse.json(
-                { message: 'O tipo da ocorrência é obrigatório' },
+                { message: 'Campos obrigatórios ausentes.' },
                 { status: 400 }
             );
         }
 
-        // Garantindo que data_inicio seja uma data válida
-        let dataInicio = body.data_inicio;
-        if (!dataInicio) {
-            dataInicio = new Date().toISOString();
-        }
-
-        // Garantindo que severidade seja um número válido
-        const severidade = parseInt(body.severidade);
-        if (isNaN(severidade) || severidade < 1 || severidade > 3) {
-            console.error('severidade inválida:', body.severidade);
-            return NextResponse.json(
-                { message: 'A severidade deve ser um número entre 1 e 3' },
-                { status: 400 }
-            );
-        }
-        
-        // Convertendo para o formato esperado pela API
-        const convertedBody = {
-            TIPO_OCORRENCIA: tipoOcorrencia.trim(),
-            DATA_INICIO: dataInicio.split('T')[0] + " 00:00:00", // Formato YYYY-MM-DD HH:mm:ss
-            DATA_FIM: null,
-            DESCRICAO_OCORRENCIA: null,
-            SEVERIDADE_OCORRENCIA: severidade,
-            FK_CCO_ID_CCO: parseInt(body.id_cco) || 1,
-            FK_ESTACAO_ID_ESTACAO: parseInt(body.id_estacao) || 1,
-            STATUS_OCORRENCIA: body.status_ocorrencia?.toUpperCase() || 'ABERTO'
+        // Montar o corpo exatamente como a API espera
+        const dataToSend = {
+            tipo_ocorrencia: body.tipo_ocorrencia,
+            data_inicio: toApiDate(body.data_inicio),
+            data_fim: body.data_fim ? toApiDate(body.data_fim) : null,
+            severidade_ocorrencia: Number(body.severidade_ocorrencia),
+            id_estacao: Number(body.id_estacao),
+            id_cco: Number(body.id_cco),
+            status_ocorrencia: body.status_ocorrencia,
+            s3_key_evidencia: body.s3_key_evidencia ?? null,
+            descricao_ocorrencia: body.descricao_ocorrencia || ''
         };
-        
-        console.log('Converted body:', convertedBody);
-        console.log('Stringified body:', JSON.stringify(convertedBody));
-        
-        const response = await fetch('https://a3h5lirec7.execute-api.sa-east-1.amazonaws.com/ocorrencia', {
+
+        console.log('data_inicio formatada:', toApiDate(body.data_inicio));
+        console.log('Corpo enviado para API externa:', dataToSend);
+
+        const response = await fetch('https://gkr7t959w0.execute-api.sa-east-1.amazonaws.com/ocorrencia', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(convertedBody),
+            body: JSON.stringify(dataToSend),
         });
 
         const data = await response.json();
         console.log('External API response:', data);
         
         if (!response.ok) {
-            console.error('External API error:', {
-                status: response.status,
-                statusText: response.statusText,
-                data: data
-            });
             return NextResponse.json(
-                { 
-                    message: data.message || 'Erro ao criar ocorrência',
-                    details: data,
-                    status: response.status
-                },
+                { message: data.message || 'Erro ao criar ocorrência', details: data, status: response.status },
                 { status: response.status }
             );
         }
@@ -109,11 +81,7 @@ export async function POST(request: Request) {
     } catch (error) {
         console.error('Error in API route:', error);
         return NextResponse.json(
-            { 
-                message: 'Internal server error', 
-                error: error instanceof Error ? error.message : 'Unknown error',
-                stack: error instanceof Error ? error.stack : undefined
-            },
+            { message: 'Internal server error', error: error instanceof Error ? error.message : 'Unknown error' },
             { status: 500 }
         );
     }
@@ -138,7 +106,7 @@ export async function PUT(request: Request) {
         
         console.log('Converted body for PUT:', convertedBody);
         
-        const response = await fetch(`https://a3h5lirec7.execute-api.sa-east-1.amazonaws.com/ocorrencia/${id}`, {
+        const response = await fetch(`https://gkr7t959w0.execute-api.sa-east-1.amazonaws.com/ocorrencia/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -177,4 +145,12 @@ export async function PUT(request: Request) {
             { status: 500 }
         );
     }
+}
+
+function toApiDate(dateString: string): string | null {
+    if (!dateString) return null;
+    const date = new Date(dateString);
+    const pad = (n: number) => n.toString().padStart(2, '0');
+    // Formato: YYYY-MM-DDTHH:mm:ss
+    return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
 }

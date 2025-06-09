@@ -54,13 +54,24 @@ const CompAddOcorrencia = ({ isOpen, onClose, onAdd}: OcorrenciaModalProps) => {
         }
 
         try {
+            const formatDate = (dateString: string) => {
+                if (!dateString) return null;
+                const date = new Date(dateString);
+                const pad = (n: number) => n.toString().padStart(2, '0');
+                // Formato: YYYY-MM-DDTHH:mm:ss
+                return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
+            };
+
             const dataToSend = {
-                ...formData,
-                dataInicio: new Date(formData.dataInicio).toISOString(),
-                statusOcorrencia: formData.statusOcorrencia.toUpperCase(),
-                cco: { id: 1 },
-                estacao: { id: 1 },
-                severidadeOcorrencia: Number(formData.severidadeOcorrencia)
+                tipo_ocorrencia: formData.tipoOcorrencia,
+                data_inicio: formatDate(formData.dataInicio),
+                data_fim: formData.dataFim ? formatDate(formData.dataFim) : null,
+                severidade_ocorrencia: Number(formData.severidadeOcorrencia),
+                id_estacao: 6,
+                id_cco: 6,
+                status_ocorrencia: formData.statusOcorrencia.toUpperCase(),
+                s3_key_evidencia: null,
+                descricao_ocorrencia: formData.descricaoOcorrencia || ''
             };
             
             console.log('Enviando dados:', dataToSend);

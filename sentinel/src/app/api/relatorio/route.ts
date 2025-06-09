@@ -1,57 +1,44 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 
 import { NextResponse } from 'next/server';
 
 export async function GET() {
-    try {
-        // Fetch all occurrences
-        const response = await fetch('https://java-sentinel-api-1.onrender.com/ocorrencia', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
+    const start = '2025-06-01T00:00:00';
+    const end = '2025-06-30T23:59:59';
+
+    const stats = await fetchOcorrenciaStats(start, end);
+
+    return NextResponse.json([
+        {
+            id: '1',
+            nome: 'Relatório Teste',
+            razao: 'Teste',
+            data: start,
+            ocorrencias: [
+                {
+                    id: 1,
+                    tipoOcorrencia: 'Teste',
+                    dataInicio: start,
+                    dataFim: end,
+                    descricaoOcorrencia: 'Ocorrência de teste',
+                    severidadeOcorrencia: 1,
+                    statusOcorrencia: 'Aberta'
+                }
+            ],
+            status: {
+                start,
+                end
             },
-        });
+            stats
+        }
+    ]);
+}
 
-        const ocorrencias = await response.json();
-
-        // Group occurrences by month
-        const relatoriosPorMes = ocorrencias.reduce((acc: any, ocorrencia: any) => {
-            const data = new Date(ocorrencia.DATA_INICIO);
-            const mesAno = `${data.toLocaleString('pt-BR', { month: 'short' })}/${data.getFullYear()}`;
-            
-            if (!acc[mesAno]) {
-                acc[mesAno] = {
-                    id: mesAno.toLowerCase().replace('/', '-'),
-                    nome: mesAno,
-                    razao: "0/0", // Will be updated with total occurrences
-                    data: data.toLocaleDateString('pt-BR'),
-                    ocorrencias: []
-                };
-            }
-            
-            acc[mesAno].ocorrencias.push(ocorrencia);
-            return acc;
-        }, {});
-
-        // Calculate ratio and format data
-        const relatorios = Object.values(relatoriosPorMes).map((relatorio: any) => {
-            const totalOcorrencias = relatorio.ocorrencias.length;
-            const ocorrenciasConcluidas = relatorio.ocorrencias.filter((oc: any) => 
-                oc.STATUS_OCORRENCIA === 'Concluído'
-            ).length;
-            
-            return {
-                ...relatorio,
-                razao: `${ocorrenciasConcluidas}/${totalOcorrencias}`
-            };
-        });
-
-        return NextResponse.json(relatorios, { status: 200 });
-    } catch (error) {
-        console.error('Error in API route:', error);
-        return NextResponse.json(
-            { message: 'Internal server error' },
-            { status: 500 }
-        );
-    }
-} 
+async function fetchOcorrenciaStats(start: string, end: string) {
+    const res = await fetch(
+        `https://gkr7t959w0.execute-api.sa-east-1.amazonaws.com/ocorrencia/stats?start=${start}&end=${end}`,
+        { headers: { 'Content-Type': 'application/json' } }
+    );
+    if (!res.ok) throw new Error('Erro ao buscar estatísticas');
+    return res.json();
+}

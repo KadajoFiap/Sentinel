@@ -179,6 +179,7 @@ const OcorrenciaTableContent = ({ onEditClick }: OcorrenciaTableContentProps) =>
                 <tbody className="divide-y divide-gray-200">
                     {ocorrencias
                       .filter(ocorrencia => ocorrencia && ocorrencia.id > 0)
+                      .sort((a, b) => b.id - a.id)
                       .map((ocorrencia) => (
                         <tr key={ocorrencia.id} className="hover:bg-gray-50">
                           <td className="pl-8 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">
