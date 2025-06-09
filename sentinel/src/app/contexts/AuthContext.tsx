@@ -31,7 +31,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           const isValid = await authService.isAuthenticated();
           if (isValid) {
             setIsLoggedIn(true);
-            // Recuperar email do usuário do token ou de outro local apropriado
             const storedEmail = localStorage.getItem('userEmail');
             setUserEmail(storedEmail || '');
           } else {
@@ -56,6 +55,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     initializeAuth();
   }, []);
+
+  // Proteger rotas que requerem autenticação
+  useEffect(() => {
+    if (isInitialized) {
+      const publicPaths = ['/Login', '/Register', '/Confirm'];
+      const currentPath = window.location.pathname;
+
+      if (!isLoggedIn && !publicPaths.includes(currentPath)) {
+        router.push('/Login');
+      } else if (isLoggedIn && publicPaths.includes(currentPath)) {
+        router.push('/');
+      }
+    }
+  }, [isLoggedIn, isInitialized, router]);
 
   const login = async (data: LoginData) => {
     try {
@@ -99,7 +112,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUserEmail('');
       localStorage.removeItem('token');
       localStorage.removeItem('userEmail');
-      router.push('/login');
+      router.push('/Login');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Erro ao fazer logout');
       throw err;

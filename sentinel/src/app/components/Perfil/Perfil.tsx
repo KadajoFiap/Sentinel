@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../../contexts/AuthContext';
 
@@ -10,12 +10,12 @@ interface PerfilProps {
 const CompPerfil = ({ email }: PerfilProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const router = useRouter();
-    const { logout } = useAuth();
+    const { logout, isLoggedIn } = useAuth();
 
     const handleLogout = () => {
         logout();
         setIsOpen(false);
-        router.push('/login');
+        router.push('/Login');
     };
 
     // Função para obter a inicial do email ou um caractere padrão
@@ -23,6 +23,12 @@ const CompPerfil = ({ email }: PerfilProps) => {
         if (!email) return 'U';
         return email.charAt(0).toUpperCase();
     };
+
+    useEffect(() => {
+        if (!isLoggedIn) {
+            router.push('/Login');
+        }
+    }, [isLoggedIn, router]);
 
     return (
         <div className="relative">

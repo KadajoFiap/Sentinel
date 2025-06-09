@@ -12,7 +12,7 @@ const Integrantes = () => {
 
     useEffect(() => {
         if (!isLoggedIn) {
-            router.push('/login');
+            router.push('/Login');
         } else {
             setIsLoading(false);
         }

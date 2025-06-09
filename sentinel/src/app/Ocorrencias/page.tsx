@@ -1,28 +1,28 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import CompOcorrencias from "@/app/components/Ocorrencias/Ocorrencias";
-import CompLoading from "@/app/components/Loading/Loading";
 import { useAuth } from '../contexts/AuthContext';
+import OcorrenciaTableContent from '../components/Ocorrencias/OcorrenciaTableContent/OcorrenciaTableContent';
 
-const Ocorrencias = () => {
-    const router = useRouter();
-    const [isLoading, setIsLoading] = useState(true);
-    const { isLoggedIn } = useAuth();
+export default function OcorrenciasPage() {
+  const router = useRouter();
+  const { isLoggedIn } = useAuth();
 
-    useEffect(() => {
-        if (!isLoggedIn) {
-            router.push('/login');
-        } else {
-            setIsLoading(false);
-        }
-    }, [isLoggedIn, router]);
-
-    if (isLoading) {
-        return <CompLoading />;
+  useEffect(() => {
+    if (!isLoggedIn) {
+      router.push('/Login');
     }
+  }, [isLoggedIn, router]);
 
-    return <CompOcorrencias />;
+  const handleEditClick = (ocorrencia: any) => {
+    // TODO: Implement edit functionality
+    console.log('Edit clicked for:', ocorrencia);
+  };
+
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-2xl font-bold mb-6">Ocorrências</h1>
+      <OcorrenciaTableContent onEditClick={handleEditClick} />
+    </div>
+  );
 }
-
-export default Ocorrencias;
