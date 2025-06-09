@@ -26,28 +26,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const initializeAuth = async () => {
       try {
         const token = localStorage.getItem('token');
-        if (token) {
-          // Verificar se o token é válido
-          const isValid = await authService.isAuthenticated();
-          if (isValid) {
-            setIsLoggedIn(true);
-            const storedEmail = localStorage.getItem('userEmail');
-            setUserEmail(storedEmail || '');
-          } else {
-            // Token inválido, limpar dados
-            localStorage.removeItem('token');
-            localStorage.removeItem('userEmail');
-            setIsLoggedIn(false);
-            setUserEmail('');
-          }
+        const storedEmail = localStorage.getItem('userEmail');
+        
+        if (token && storedEmail) {
+          setIsLoggedIn(true);
+          setUserEmail(storedEmail);
         }
       } catch (err) {
         console.error('Erro ao inicializar autenticação:', err);
-        // Em caso de erro, limpar dados
-        localStorage.removeItem('token');
-        localStorage.removeItem('userEmail');
-        setIsLoggedIn(false);
-        setUserEmail('');
       } finally {
         setIsInitialized(true);
       }
@@ -73,7 +59,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = async (data: LoginData) => {
     try {
       setError(null);
-      await authService.login(data);
+      const result = await authService.login(data);
       setIsLoggedIn(true);
       setUserEmail(data.username);
       localStorage.setItem('userEmail', data.username);

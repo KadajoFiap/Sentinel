@@ -60,7 +60,7 @@ const OcorrenciasHomepage: React.FC = () => {
             <div className="flex justify-between items-center p-6 pb-4">
                 <h2 className="text-xl font-semibold text-gray-800">Ocorrências Recentes</h2>
                 <Link 
-                    href="/ocorrencias"
+                    href="/Ocorrencias"
                     className="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center"
                 >
                     Ver todas
