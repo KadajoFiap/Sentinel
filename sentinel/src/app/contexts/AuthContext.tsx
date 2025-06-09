@@ -59,7 +59,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = async (data: LoginData) => {
     try {
       setError(null);
-      const result = await authService.login(data);
+      await authService.login(data);
       setIsLoggedIn(true);
       setUserEmail(data.username);
       localStorage.setItem('userEmail', data.username);
