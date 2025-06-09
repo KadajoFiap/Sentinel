@@ -12,7 +12,7 @@ const Relatorios = () => {
 
     useEffect(() => {
         if (!isLoggedIn) {
-            router.push('/Login');
+            router.push('/login');
         } else {
             setIsLoading(false);
         }

@@ -30,7 +30,23 @@ const OcorrenciasHomepage: React.FC = () => {
             }
             const data = await response.json();
             console.log('Dados recebidos:', data);
-            setOcorrencias(data);
+            
+            if (Array.isArray(data)) {
+                const ocorrenciasValidas = data.map(apiOcorrencia => ({
+                    id: apiOcorrencia.ID_OCORRENCIA,
+                    dataInicio: apiOcorrencia.DATA_INICIO,
+                    dataFim: apiOcorrencia.DATA_FIM,
+                    tipoOcorrencia: apiOcorrencia.TIPO_OCORRENCIA,
+                    descricaoOcorrencia: apiOcorrencia.DESCRICAO_OCORRENCIA,
+                    severidadeOcorrencia: apiOcorrencia.SEVERIDADE_OCORRENCIA,
+                    cco: { id: apiOcorrencia.FK_CCO_ID_CCO },
+                    estacao: { id: apiOcorrencia.FK_ESTACAO_ID_ESTACAO },
+                    statusOcorrencia: apiOcorrencia.STATUS_OCORRENCIA
+                })).filter(oc => oc && oc.id > 0);
+                setOcorrencias(ocorrenciasValidas);
+            } else {
+                setOcorrencias([]);
+            }
         } catch (err) {
             setError('Erro ao carregar ocorrências. Por favor, tente novamente.');
             console.error('Erro ao carregar ocorrências:', err);
@@ -44,7 +60,7 @@ const OcorrenciasHomepage: React.FC = () => {
             <div className="flex justify-between items-center p-6 pb-4">
                 <h2 className="text-xl font-semibold text-gray-800">Ocorrências Recentes</h2>
                 <Link 
-                    href="/Ocorrencias"
+                    href="/ocorrencias"
                     className="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center"
                 >
                     Ver todas
@@ -61,7 +77,7 @@ const OcorrenciasHomepage: React.FC = () => {
                             <tr>
                                 <th scope="col" className="py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-[100px] whitespace-nowrap">ID</th>
                                 <th scope="col" className="py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-[150px] whitespace-nowrap">Data</th>
-                                <th scope="col" className="py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider min-w-[400px] whitespace-nowrap">Descrição</th>
+                                <th scope="col" className="py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider min-w-[400px] whitespace-nowrap pl-8">Tipo Ocorrência</th>
                                 <th scope="col" className="py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-[150px] whitespace-nowrap">Status</th>
                             </tr>
                         </thead>
@@ -86,7 +102,6 @@ const OcorrenciasHomepage: React.FC = () => {
                                 </tr>
                             ) : (
                                 ocorrencias
-                                    .filter(oc => oc && oc.id > 0)
                                     .slice(0, 5)
                                     .map((ocorrencia) => (
                                         <tr key={ocorrencia.id} className="hover:bg-gray-50">
@@ -94,7 +109,7 @@ const OcorrenciasHomepage: React.FC = () => {
                                             <td className="py-4 text-sm text-gray-500 whitespace-nowrap">
                                                 {new Date(ocorrencia.dataInicio).toLocaleString()}
                                             </td>
-                                            <td className="py-4 text-sm text-gray-900">
+                                            <td className="py-4 text-sm text-gray-900 pl-8">
                                                 {ocorrencia.tipoOcorrencia}
                                             </td>
                                             <td className="py-4 text-sm text-gray-500 whitespace-nowrap">

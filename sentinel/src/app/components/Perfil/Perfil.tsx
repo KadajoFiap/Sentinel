@@ -15,7 +15,7 @@ const CompPerfil = ({ email }: PerfilProps) => {
     const handleLogout = () => {
         logout();
         setIsOpen(false);
-        router.push('/Login');
+        router.push('/login');
     };
 
     // Função para obter a inicial do email ou um caractere padrão

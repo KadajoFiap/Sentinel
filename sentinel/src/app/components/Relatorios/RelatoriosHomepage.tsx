@@ -24,7 +24,7 @@ const RelatoriosHomepage: React.FC<RelatoriosHomepageProps> = ({ relatorios }) =
             <div className="flex justify-between items-center p-6 pb-4">
                 <h2 className="text-xl font-semibold text-gray-800">Relatórios Recentes</h2>
                 <Link 
-                    href="/Relatorios"
+                    href="/relatorios"
                     className="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center"
                 >
                     Ver todos

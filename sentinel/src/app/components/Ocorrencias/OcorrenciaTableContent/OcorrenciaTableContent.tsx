@@ -15,15 +15,15 @@ interface Ocorrencia {
 }
 
 interface ApiOcorrencia {
-    id: number;
-    dataInicio: string;
-    dataFim: string | null;
-    tipoOcorrencia: string;
-    descricaoOcorrencia: string | null;
-    severidadeOcorrencia: number;
-    cco: { id: number };
-    estacao: { id: number };
-    statusOcorrencia: string;
+    ID_OCORRENCIA: number;
+    DATA_INICIO: string;
+    DATA_FIM: string | null;
+    TIPO_OCORRENCIA: string;
+    DESCRICAO_OCORRENCIA: string | null;
+    SEVERIDADE_OCORRENCIA: number;
+    FK_CCO_ID_CCO: number;
+    FK_ESTACAO_ID_ESTACAO: number;
+    STATUS_OCORRENCIA: string;
 }
 
 interface OcorrenciaTableContentProps {
@@ -32,20 +32,21 @@ interface OcorrenciaTableContentProps {
 }
 
 const convertApiResponse = (apiOcorrencia: ApiOcorrencia): Ocorrencia => {
-    console.log('Convertendo ocorrência:', apiOcorrencia);
-    const converted = {
-        id: apiOcorrencia?.id ?? 0,
-        dataInicio: apiOcorrencia?.dataInicio ?? '',
-        dataFim: apiOcorrencia?.dataFim ?? null,
-        tipoOcorrencia: apiOcorrencia?.tipoOcorrencia ?? '',
-        descricaoOcorrencia: apiOcorrencia?.descricaoOcorrencia ?? null,
-        severidadeOcorrencia: apiOcorrencia?.severidadeOcorrencia ?? 0,
-        cco: apiOcorrencia?.cco ?? { id: 0 },
-        estacao: apiOcorrencia?.estacao ?? { id: 0 },
-        statusOcorrencia: apiOcorrencia?.statusOcorrencia ?? ''
+    if (!apiOcorrencia) {
+        throw new Error('Dados da ocorrência inválidos');
+    }
+
+    return {
+        id: apiOcorrencia.ID_OCORRENCIA,
+        dataInicio: apiOcorrencia.DATA_INICIO,
+        dataFim: apiOcorrencia.DATA_FIM,
+        tipoOcorrencia: apiOcorrencia.TIPO_OCORRENCIA,
+        descricaoOcorrencia: apiOcorrencia.DESCRICAO_OCORRENCIA,
+        severidadeOcorrencia: apiOcorrencia.SEVERIDADE_OCORRENCIA,
+        cco: { id: apiOcorrencia.FK_CCO_ID_CCO },
+        estacao: { id: apiOcorrencia.FK_ESTACAO_ID_ESTACAO },
+        statusOcorrencia: apiOcorrencia.STATUS_OCORRENCIA
     };
-    console.log('Ocorrência convertida:', converted);
-    return converted;
 };
 
 const OcorrenciaTableContent = ({ onEditClick }: OcorrenciaTableContentProps) => {
@@ -54,40 +55,54 @@ const OcorrenciaTableContent = ({ onEditClick }: OcorrenciaTableContentProps) =>
     const [error, setError] = useState('');
 
     useEffect(() => {
-        console.log('useEffect rodou');
         fetchOcorrencias();
     }, []);
 
     const fetchOcorrencias = async () => {
-        console.log('fetchOcorrencias chamada');
         try {
+            setIsLoading(true);
+            setError('');
+
             const response = await fetch('/api/ocorrencia', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                 },
             });
+
             if (!response.ok) {
-                const errorText = await response.text();
-                throw new Error(`Erro ao carregar ocorrências: ${response.status} ${response.statusText} - ${errorText}`);
+                const errorData = await response.json().catch(() => null);
+                throw new Error(
+                    errorData?.message || 
+                    `Erro ao carregar ocorrências: ${response.status} ${response.statusText}`
+                );
             }
+
             const data = await response.json();
-            console.log('API data recebida:', data);
             
-            if (Array.isArray(data)) {
-                const ocorrenciasValidas = data
-                  .map(convertApiResponse)
-                    .filter(oc => oc && oc.id > 0);
-                console.log('Ocorrências convertidas:', ocorrenciasValidas);
-                setOcorrencias(ocorrenciasValidas);
-            } else {
-                console.log('Dados recebidos não são um array:', data);
-                setOcorrencias([]);
+            if (!Array.isArray(data)) {
+                throw new Error('Formato de dados inválido: esperado um array de ocorrências');
             }
+
+            const ocorrenciasValidas = data
+                .filter((item): item is ApiOcorrencia => {
+                    return (
+                        item &&
+                        typeof item.ID_OCORRENCIA === 'number' &&
+                        typeof item.TIPO_OCORRENCIA === 'string' &&
+                        typeof item.STATUS_OCORRENCIA === 'string'
+                    );
+                })
+                .map(convertApiResponse)
+                .filter(oc => oc.id > 0);
+
+            setOcorrencias(ocorrenciasValidas);
         } catch (err) {
-            const errorMessage = err instanceof Error ? err.message : 'Erro desconhecido ao carregar ocorrências';
+            const errorMessage = err instanceof Error 
+                ? err.message 
+                : 'Erro ao carregar ocorrências. Por favor, tente novamente mais tarde.';
             setError(errorMessage);
-            console.error('Erro detalhado ao carregar ocorrências:', err);
+            console.error('Erro ao carregar ocorrências:', err);
         } finally {
             setIsLoading(false);
         }
@@ -127,7 +142,7 @@ const OcorrenciaTableContent = ({ onEditClick }: OcorrenciaTableContentProps) =>
                     <thead className="bg-gray-100 sticky top-0">
                         <tr>
                             <th className="w-24 px-6 py-3 text-left text-sm font-semibold text-gray-600">ID</th>
-                            <th className="w-[30%] px-6 py-3 text-left text-sm font-semibold text-gray-600">Descrição</th>
+                            <th className="w-[30%] px-6 py-3 text-left text-sm font-semibold text-gray-600">Tipo Ocorrência</th>
                             <th className="w-32 px-6 py-3 text-left text-sm font-semibold text-gray-600">Data</th>
                             <th className="w-32 px-6 py-3 text-left text-sm font-semibold text-gray-600">Status</th>
                             <th className="w-28 px-6 py-3 text-left text-sm font-semibold text-gray-600">Grau</th>
@@ -153,7 +168,7 @@ const OcorrenciaTableContent = ({ onEditClick }: OcorrenciaTableContentProps) =>
                 <thead className="bg-gray-100 sticky top-0">
                     <tr>
                         <th className="w-24 px-6 py-3 text-left text-sm font-semibold text-gray-600">ID</th>
-                        <th className="w-[30%] px-6 py-3 text-left text-sm font-semibold text-gray-600">Descrição</th>
+                        <th className="w-[30%] px-6 py-3 text-left text-sm font-semibold text-gray-600">Tipo Ocorrência</th>
                         <th className="w-32 px-6 py-3 text-left text-sm font-semibold text-gray-600">Data</th>
                         <th className="w-32 px-6 py-3 text-left text-sm font-semibold text-gray-600">Status</th>
                         <th className="w-28 px-6 py-3 text-left text-sm font-semibold text-gray-600">Grau</th>

@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 export async function GET() {
     try {
         console.log('Iniciando chamada à API externa');
-        const response = await fetch('https://java-sentinel-api.onrender.com/ocorrencia', {
+        const response = await fetch('https://a3h5lirec7.execute-api.sa-east-1.amazonaws.com/ocorrencia', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -36,11 +36,11 @@ export async function POST(request: Request) {
         console.log('Request body received:', body);
         
         // Garantindo que tipo_ocorrencia não seja undefined ou vazio
-        const tipoOcorrencia = body.tipoOcorrencia;
+        const tipoOcorrencia = body.tipo_ocorrencia;
         console.log('Tipo de ocorrência recebido:', tipoOcorrencia);
         
         if (!tipoOcorrencia || tipoOcorrencia.trim() === '') {
-            console.error('tipoOcorrencia está vazio ou undefined');
+            console.error('tipo_ocorrencia está vazio ou undefined');
             return NextResponse.json(
                 { message: 'O tipo da ocorrência é obrigatório' },
                 { status: 400 }
@@ -48,41 +48,37 @@ export async function POST(request: Request) {
         }
 
         // Garantindo que data_inicio seja uma data válida
-        let dataInicio = body.dataInicio;
+        let dataInicio = body.data_inicio;
         if (!dataInicio) {
             dataInicio = new Date().toISOString();
         }
 
         // Garantindo que severidade seja um número válido
-        const severidade = parseInt(body.severidadeOcorrencia);
+        const severidade = parseInt(body.severidade);
         if (isNaN(severidade) || severidade < 1 || severidade > 3) {
-            console.error('severidadeOcorrencia inválida:', body.severidadeOcorrencia);
+            console.error('severidade inválida:', body.severidade);
             return NextResponse.json(
                 { message: 'A severidade deve ser um número entre 1 e 3' },
                 { status: 400 }
             );
         }
         
-        // Convertendo para o formato esperado pela API Java
+        // Convertendo para o formato esperado pela API
         const convertedBody = {
-            tipoOcorrencia: tipoOcorrencia.trim(),
-            dataInicio: dataInicio.split('T')[0], // Formato YYYY-MM-DD
-            dataFim: body.dataFim ? body.dataFim.split('T')[0] : null,
-            descricaoOcorrencia: body.descricaoOcorrencia || null,
-            severidadeOcorrencia: severidade,
-            cco: {
-                id: parseInt(body.cco?.id) || 1
-            },
-            estacao: {
-                id: parseInt(body.estacao?.id) || 1
-            },
-            statusOcorrencia: body.statusOcorrencia?.toUpperCase() || 'ABERTO'
+            TIPO_OCORRENCIA: tipoOcorrencia.trim(),
+            DATA_INICIO: dataInicio.split('T')[0] + " 00:00:00", // Formato YYYY-MM-DD HH:mm:ss
+            DATA_FIM: null,
+            DESCRICAO_OCORRENCIA: null,
+            SEVERIDADE_OCORRENCIA: severidade,
+            FK_CCO_ID_CCO: parseInt(body.id_cco) || 1,
+            FK_ESTACAO_ID_ESTACAO: parseInt(body.id_estacao) || 1,
+            STATUS_OCORRENCIA: body.status_ocorrencia?.toUpperCase() || 'ABERTO'
         };
         
         console.log('Converted body:', convertedBody);
         console.log('Stringified body:', JSON.stringify(convertedBody));
         
-        const response = await fetch('https://java-sentinel-api.onrender.com/ocorrencia', {
+        const response = await fetch('https://a3h5lirec7.execute-api.sa-east-1.amazonaws.com/ocorrencia', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -128,25 +124,21 @@ export async function PUT(request: Request) {
         const body = await request.json();
         const { id, ...inputData } = body;
         
-        // Convertendo para o formato esperado pela API Java
+        // Convertendo para o formato esperado pela API
         const convertedBody = {
-            tipoOcorrencia: inputData.tipoOcorrencia?.trim(),
-            dataInicio: inputData.dataInicio ? inputData.dataInicio.split('T')[0] : new Date().toISOString().split('T')[0],
-            dataFim: inputData.dataFim ? inputData.dataFim.split('T')[0] : null,
-            descricaoOcorrencia: inputData.descricaoOcorrencia,
-            severidadeOcorrencia: parseInt(inputData.severidadeOcorrencia),
-            cco: {
-                id: parseInt(inputData.cco?.id) || 1
-            },
-            estacao: {
-                id: parseInt(inputData.estacao?.id) || 1
-            },
-            statusOcorrencia: inputData.statusOcorrencia?.toUpperCase() || 'ABERTO'
+            TIPO_OCORRENCIA: inputData.tipoOcorrencia?.trim(),
+            DATA_INICIO: inputData.dataInicio ? inputData.dataInicio.split('T')[0] : new Date().toISOString().split('T')[0],
+            DATA_FIM: inputData.dataFim ? inputData.dataFim.split('T')[0] : null,
+            DESCRICAO_OCORRENCIA: inputData.descricaoOcorrencia,
+            SEVERIDADE_OCORRENCIA: parseInt(inputData.severidadeOcorrencia),
+            FK_CCO_ID_CCO: parseInt(inputData.cco?.id) || 1,
+            FK_ESTACAO_ID_ESTACAO: parseInt(inputData.estacao?.id) || 1,
+            STATUS_OCORRENCIA: inputData.statusOcorrencia?.toUpperCase() || 'ABERTO'
         };
         
         console.log('Converted body for PUT:', convertedBody);
         
-        const response = await fetch(`https://java-sentinel-api.onrender.com/ocorrencia/${id}`, {
+        const response = await fetch(`https://a3h5lirec7.execute-api.sa-east-1.amazonaws.com/ocorrencia/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

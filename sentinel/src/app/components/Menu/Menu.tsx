@@ -1,8 +1,9 @@
 "use client";
 
+import Link from 'next/link';
 import React from 'react';
 import { useState } from 'react';
-import Link from "next/link";
+
 
 export default function Menu(): React.ReactElement {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -17,13 +18,13 @@ export default function Menu(): React.ReactElement {
 
     const rotas = [{
         label: 'Ocorrências',
-        to: '/Ocorrencias'
+        to: '/ocorrencias'
     }, {
         label: 'Relatórios',
-        to: '/Relatorios'
+        to: '/relatorios'
     }, {
         label: 'Integrantes',
-        to: '/Integrantes'
+        to: '/integrantes'
     }, {
         label: 'GitHub',
         to: 'https://github.com/KadajoFiap/Sentinel',
